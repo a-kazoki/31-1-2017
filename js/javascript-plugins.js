@@ -1,6 +1,7 @@
 // app js
 var myApp = angular.module("myApp", ["ngRoute", "ngCookies"]);
 window.fbAsyncInit = function () {
+    "use strict";
     FB.init({
         appId      : '395476837465709',
         xfbml      : true,
@@ -9,6 +10,7 @@ window.fbAsyncInit = function () {
     FB.AppEvents.logPageView();
 };
 (function (d, s, id) {
+    "use strict";
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) {return; }
     js = d.createElement(s);
@@ -19,11 +21,20 @@ window.fbAsyncInit = function () {
 
 //routes js
 myApp.config(["$routeProvider", function($routeProvider) {
+    "use strict";
     $routeProvider
         
         .when("/", {
                 templateUrl : "views/login.html",
                 controller : "homeCtrl"
+            })
+        .when("/signup", {
+                templateUrl : "views/contact-create-account.html",
+                controller : "signupCtrl"
+            })
+        .when("/resetpassword", {
+                templateUrl : "views/Reset-password.html",
+                controller : "resetCtrl"
             })
         .when("/dashboard", {
             templateUrl : "views/dashboard.html",
@@ -35,6 +46,7 @@ myApp.config(["$routeProvider", function($routeProvider) {
         });
 }]);
 myApp.run(["$rootScope", "$location", "authFact", function ($rootScope, $location, authFact) {
+    "use strict";
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
         if (next.$$route.authenticated) {
             var userAuth = authFact.getAccessToken();
@@ -47,7 +59,10 @@ myApp.run(["$rootScope", "$location", "authFact", function ($rootScope, $locatio
 
 //homeCtrl js
 myApp.controller("homeCtrl", ["$scope", "authFact", "$location", "$cookies", function ($scope, authFact, $location, $cookies) {
+    "use strict";
     $scope.name = "Login Please";
+    $scope.signUp = function () {$location.path("/signup"); };
+    $scope.forgetpass = function () {$location.path("/resetpassword"); };
     $scope.FBLogin = function () {
         FB.login(function (response) {
             if (response.authResponse) {
@@ -70,21 +85,9 @@ myApp.controller("homeCtrl", ["$scope", "authFact", "$location", "$cookies", fun
     };
 }]);
 
-//authFact js
-myApp.factory("authFact", ["$cookies", function ($cookies) {
-    var authFact = {};
-    authFact.setAccessToken = function (accessToken) {
-        $cookies.put("accessToken", accessToken);
-    };
-    authFact.getAccessToken = function () {
-        authFact.authToken = $cookies.get("accessToken");
-        return authFact.authToken;
-    };
-    return authFact;
-}]);
-
 //dashboardCtrl js
 myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function ($scope, $location, $cookies) {
+    "use strict";
     var favoriteCookie = $cookies.get('userid');
     var favorite1Cookie = $cookies.get('pic');
     $scope.theid = favoriteCookie;
@@ -99,4 +102,18 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function (
         $cookies.remove("userid");
         $scope.theid = "";
     };
+}]);
+
+//authFact js
+myApp.factory("authFact", ["$cookies", function ($cookies) {
+    "use strict";
+    var authFact = {};
+    authFact.setAccessToken = function (accessToken) {
+        $cookies.put("accessToken", accessToken);
+    };
+    authFact.getAccessToken = function () {
+        authFact.authToken = $cookies.get("accessToken");
+        return authFact.authToken;
+    };
+    return authFact;
 }]);
