@@ -24,18 +24,21 @@ window.fbAsyncInit = function () {
 myApp.config(["$routeProvider", function ($routeProvider) {
     "use strict";
     $routeProvider
-        
-        .when("/", {templateUrl : "views/login.html",
-                controller : "homeCtrl"
-            })
-        .when("/signup", {templateUrl : "views/contact-create-account.html"
-            })
-        .when("/resetpassword", {templateUrl : "views/Reset-password.html"
-            })
-        .when("/dashboard", {templateUrl : "views/dashboard.html",
+        .when("/", {
+            templateUrl : "views/login.html",
+            controller : "homeCtrl"
+        })
+        .when("/signup", {
+            templateUrl : "views/contact-create-account.html"
+        })
+        .when("/resetpassword", {
+            templateUrl : "views/Reset-password.html"
+        })
+        .when("/dashboard", {
+            templateUrl : "views/dashboard.html",
             controller : "dashboardCtrl",
             authenticated : true
-            })
+        })
         .otherwise("/", {
             templateUrl : "views/login.html"
         });
