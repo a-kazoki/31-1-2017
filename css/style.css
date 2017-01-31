@@ -273,7 +273,8 @@ body,h1,h2,h3,h4,h5,p,.lead{
 /*Reset Password
 ================================================== */
 .center-content{
-	padding-top: 80px;
+	padding-top: 150px;
+	padding-bottom: 150px;
 }
 .center-content .reset-div{
 	background: #fff;

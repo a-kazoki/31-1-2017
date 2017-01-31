@@ -1,3 +1,4 @@
+/*global angular, FB, console*/
 // app js
 var myApp = angular.module("myApp", ["ngRoute", "ngCookies"]);
 window.fbAsyncInit = function () {
@@ -20,27 +21,21 @@ window.fbAsyncInit = function () {
 }(document, 'script', 'facebook-jssdk'));
 
 //routes js
-myApp.config(["$routeProvider", function($routeProvider) {
+myApp.config(["$routeProvider", function ($routeProvider) {
     "use strict";
     $routeProvider
         
-        .when("/", {
-                templateUrl : "views/login.html",
+        .when("/", {templateUrl : "views/login.html",
                 controller : "homeCtrl"
             })
-        .when("/signup", {
-                templateUrl : "views/contact-create-account.html",
-                controller : "signupCtrl"
+        .when("/signup", {templateUrl : "views/contact-create-account.html"
             })
-        .when("/resetpassword", {
-                templateUrl : "views/Reset-password.html",
-                controller : "resetCtrl"
+        .when("/resetpassword", {templateUrl : "views/Reset-password.html"
             })
-        .when("/dashboard", {
-            templateUrl : "views/dashboard.html",
+        .when("/dashboard", {templateUrl : "views/dashboard.html",
             controller : "dashboardCtrl",
             authenticated : true
-        })
+            })
         .otherwise("/", {
             templateUrl : "views/login.html"
         });
@@ -67,7 +62,7 @@ myApp.controller("homeCtrl", ["$scope", "authFact", "$location", "$cookies", fun
         FB.login(function (response) {
             if (response.authResponse) {
                 console.log('Welcome!  Fetching your information.... ');
-                FB.api('/me' , {fields: 'id,name,email,picture'}, function (response) {
+                FB.api('/me', {fields: 'id,name,email,picture'}, function (response) {
                     console.log('Good to see you, ' + response.name + '.');
                     console.log(response);
                     $cookies.put('userid', response.id);
