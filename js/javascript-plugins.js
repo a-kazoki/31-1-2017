@@ -98,6 +98,8 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function (
     console.log(favoriteCookie);
     console.log(allcookies);
     
+    $scope.profile = function () {$location.path("/profile"); };
+    
     $scope.logout = function () {
         $location.path("/");
         $cookies.remove("accessToken");
