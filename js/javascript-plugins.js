@@ -39,6 +39,10 @@ myApp.config(["$routeProvider", function ($routeProvider) {
             controller : "dashboardCtrl",
             authenticated : true
         })
+        .when("/profile", {
+            templateUrl : "views/profile.html",
+            authenticated : true
+        })
         .otherwise("/", {
             templateUrl : "views/login.html"
         });
