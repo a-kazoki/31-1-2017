@@ -60,11 +60,35 @@ myApp.run(["$rootScope", "$location", "authFact", function ($rootScope, $locatio
 }]);
 
 //homeCtrl js
-myApp.controller("homeCtrl", ["$scope", "authFact", "$location", "$cookies", function ($scope, authFact, $location, $cookies) {
+myApp.controller("homeCtrl", ["$scope", "authFact", "$location", "$cookies", "$http", function ($scope, authFact, $location, $cookies, $http) {
     "use strict";
     $scope.name = "Login Please";
     $scope.signUp = function () {$location.path("/signup"); };
     $scope.forgetpass = function () {$location.path("/resetpassword"); };
+    
+    $scope.UPsign = function () {
+        
+        var data = JSON.stringify({
+            "User_ID" : "9C427DE4-CAEC-4806-97F7-D3368B6A591E",
+            "Password" : "234",
+            "Email" : "test@hotmail.com",
+            "Device_Token" : "test"
+        });
+        
+        $http({
+            method: "POST",
+            url: "http://yakensolution.cloudapp.net/autocare/Api/User/Login"
+        })
+            .then(function (response) {
+                $scope.reply = response.data;
+                console.log(response);
+            }, function (reason) {
+                $scope.error = reason.data;
+                console.log(reason);
+        
+            });
+    };
+    
     $scope.FBLogin = function () {
         FB.login(function (response) {
             if (response.authResponse) {
