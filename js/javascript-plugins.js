@@ -77,7 +77,8 @@ myApp.controller("homeCtrl", ["$scope", "authFact", "$location", "$cookies", "$h
         
         $http({
             method: "POST",
-            url: "http://yakensolution.cloudapp.net/autocare/Api/User/Login"
+            url: "https://yakensolution.cloudapp.net/autocare/Api/User/Login",
+            data: data
         })
             .then(function (response) {
                 $scope.reply = response.data;
