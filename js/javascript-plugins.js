@@ -77,15 +77,16 @@ myApp.controller("homeCtrl", ["$scope", "authFact", "$location", "$cookies", "$h
         
         $http({
             method: "POST",
-            url: "https://yakensolution.cloudapp.net/autocare/Api/User/Login",
-            data: data
+            url: "http://yakensolution.cloudapp.net/autocare/Api/User/Login",
+            data: data,
+            headers: {'Content-Type': 'application/json'}
         })
             .then(function (response) {
                 $scope.reply = response.data;
-                console.log(response);
+                console.log(response.data);
             }, function (reason) {
                 $scope.error = reason.data;
-                console.log(reason);
+                console.log(reason.data);
         
             });
     };
@@ -94,7 +95,7 @@ myApp.controller("homeCtrl", ["$scope", "authFact", "$location", "$cookies", "$h
         FB.login(function (response) {
             if (response.authResponse) {
                 console.log('Welcome!  Fetching your information.... ');
-                FB.api('/me', {fields: 'id,name,email,picture'}, function (response) {
+                FB.api('/me', {fields: 'id,name,email,picture,user_location,user_birthday,pages_messaging_phone_number'}, function (response) {
                     console.log('Good to see you, ' + response.name + '.');
                     console.log(response);
                     $cookies.put('userid', response.id);
