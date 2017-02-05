@@ -47,19 +47,20 @@
 								  	</div>
 					  			    <h4 class="span-2 hvr-float-shadow wow fadeInUp" data-wow-duration="6s">Create an account</h4> 
 					  			        <div class="login-form">
-						  			    	<form role="form"><!--Start Contact Form-->
+						  			    	<form role="form" name="regForm"><!--Start Contact Form-->
 											    <div class="col-md-12">
 											        <div class="form-group">
-											          <input type="text" class="form-control input-lg" placeholder="Username"></input>
+											          <input type="text" class="form-control input-lg" placeholder="Username" ng-model="reg.username"></input>
 											        </div>
 											        <div class="form-group">
-											          <input type="text" class="form-control input-lg" placeholder="Your email"></input>
+											          <input type="text" class="form-control input-lg" placeholder="Your email" ng-model="reg.email"></input>
 											        </div>
 											        <div class="form-group">
-											          <input type="password" class="form-control input-lg" placeholder="Password"></input>
+											          <input type="password" class="form-control input-lg" placeholder="Password" ng-model="reg.password"></input>
 											        </div>
 											        <div class="form-group">
-											          <input type="password" class="form-control input-lg" placeholder="Re-Password"></input>
+											          <input type="password" class="form-control input-lg" placeholder="Re-Password" ng-model="reg.passwordConfirm" data-match="reg.password" name="myConfirmField"></input>
+                                                      <div ng-show="regForm.myConfirmField.$error.match">Fields do not match!</div>
 											        </div>
 				      							</div>
 				      							<div class="col-xs-6 col-xs-offset-3">
