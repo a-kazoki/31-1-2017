@@ -216,8 +216,6 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", function ($s
     $scope.upic = mainCookie.picture.data.url;
     var allcookies = $cookies.getAll();
     console.log(mainCookie.email);
-    console.log(uname);
-    console.log(upic);
     console.log(favoriteCookie);
     console.log(allcookies);
     
