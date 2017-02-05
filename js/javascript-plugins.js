@@ -43,6 +43,7 @@ myApp.config(["$routeProvider", function ($routeProvider) {
         })
         .when("/profile", {
             templateUrl : "views/profile.html",
+            controller : "profileCtrl",
             authenticated : true
         })
         .otherwise("/", {
@@ -202,6 +203,29 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function (
         $cookies.remove("accessToken");
         $cookies.remove("userid");
         $scope.theid = "";
+    };
+}]);
+
+//profileCtrl js
+myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", function ($scope, $location, $cookies) {
+    "use strict";
+    var mainCookie = JSON.parse($cookies.get('userData'));
+    var favoriteCookie = $cookies.get('userid');
+    var favorite1Cookie = $cookies.get('pic');
+    $scope.theid = favoriteCookie;
+    $scope.thepic = favorite1Cookie;
+    var allcookies = $cookies.getAll();
+    console.log(mainCookie.email);
+    console.log(favoriteCookie);
+    console.log(allcookies);
+    
+    /*$scope.profile = function () {$location.path("/profile"); };
+    
+    $scope.logout = function () {
+        $location.path("/");
+        $cookies.remove("accessToken");
+        $cookies.remove("userid");
+        $scope.theid = "";*/
     };
 }]);
 
