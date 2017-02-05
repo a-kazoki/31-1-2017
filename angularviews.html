@@ -17,6 +17,19 @@
 
     <!--  favicon. -->
     <link rel="icon" href="images/favicon.png" type="image/x-icon">
+    
+    <style>
+        .backimg {
+            background: url(../images/bg1.jpg)no-repeat center center fixed;
+            -webkit-background-size:cover;
+            -moz-background-size:cover;
+            -o-background-size:cover;
+            background-size:cover;	
+            width: 100%;
+
+        }
+    </style>
+    
 <script src="js/angular.min.js"></script>
         <script src="js/angular-route.min.js"></script>
         <script src="js/angular-cookies.min.js"></script>
@@ -24,9 +37,9 @@
     
 </head>
     <body>
-        
-        <div ng-view></div>
-        
+        <section class="backimg">
+            <div ng-view></div>
+        </section>
         
         
         
