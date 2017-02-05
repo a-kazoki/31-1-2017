@@ -139,7 +139,7 @@ myApp.controller("homeCtrl", ["$scope", "authFact", "$location", "$cookies", "$h
                 FB.api('/me', {fields: 'id,name,email,picture'}, function (response) {
                     console.log('Good to see you, ' + response.name + '.');
                     console.log(response);
-                    $cookies.put('userData', response);
+                    $cookies.putObject('userData', response);
                     $cookies.put('userid', response.id);
                     $cookies.put('pic', response.picture.data.url);
                     var accessToken = FB.getAuthResponse().accessToken;
