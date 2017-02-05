@@ -225,8 +225,8 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", function ($s
         $location.path("/");
         $cookies.remove("accessToken");
         $cookies.remove("userid");
-        $scope.theid = "";*/
-    };
+        $scope.theid = "";
+    };*/
 }]);
 
 //authFact js
