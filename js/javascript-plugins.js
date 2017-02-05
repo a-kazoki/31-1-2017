@@ -29,7 +29,8 @@ myApp.config(["$routeProvider", function ($routeProvider) {
             controller : "homeCtrl"
         })
         .when("/signup", {
-            templateUrl : "views/contact-create-account.html"
+            templateUrl : "views/contact-create-account.html",
+            controller : "RegistrationCtrl"
         })
         .when("/resetpassword", {
             templateUrl : "views/Reset-password.html"
@@ -57,6 +58,43 @@ myApp.run(["$rootScope", "$location", "authFact", function ($rootScope, $locatio
             }
         }
     });
+}]);
+
+//RegistrationCtrl js
+myApp.controller("RegistrationCtrl", ["$scope", "authFact", "$location", "$cookies", "$http", function ($scope, authFact, $location, $cookies, $http) {
+    "use strict";
+    
+    $scope.registrar = function () {
+        var data = JSON.stringify({
+            "Login_Type" : 1,
+            "Facebook_ID" : "you will set if with value if IfFB equal true",
+            "Google_ID" :  "you will set if with value if IfFB equal true",
+            "Password" : "123",
+            "Confirm_Password" : "123",
+            "First_Name" : "Test",
+            "Last_Name" : "Test",
+            "Date_Of_Birth" : "1/13/1993",
+            "Phone_Number" : 123456,
+            "Device_Token" : "hgdghgj",
+            "SMImage": null,
+            "Email" : "test@hotmail.com"
+        });
+
+        $http({
+            method: "POST",
+            url: "http://yakensolution.cloudapp.net/autocare/Api/User/Register",
+            data: data,
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+                $scope.reply = response.data;
+                console.log(response.data);
+            }, function (reason) {
+                $scope.error = reason.data;
+                console.log(reason.data);
+        
+            });
+    };
 }]);
 
 //homeCtrl js
