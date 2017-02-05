@@ -244,12 +244,12 @@
             </ul>
           </li>
           <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a ng-href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <li class="dropdown user user-menu">
+            <a id="dLabel" data-target="#" href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               <img src="dist/img/avatar2.png" class="user-image" alt="User Image">
               <span class="hidden-xs">Aliaa Hosny</span>
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" aria-labelledby="dLabel">
               <!-- User image -->
               <li class="user-header">
                 <img src="dist/img/avatar2.png" class="img-circle" alt="User Image">
@@ -280,6 +280,7 @@
               </li>
             </ul>
           </li>
+            
           <!-- Control Sidebar Toggle Button -->
           <li>
             <a href="" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
