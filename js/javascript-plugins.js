@@ -30,10 +30,11 @@ myApp.config(["$routeProvider", function ($routeProvider) {
         })
         .when("/signup", {
             templateUrl : "views/contact-create-account.html",
-            controller : "RegistrationCtrl"
+            controller : "registrationCtrl"
         })
         .when("/resetpassword", {
-            templateUrl : "views/Reset-password.html"
+            templateUrl : "views/Reset-password.html",
+            controller : "resetCtrl"
         })
         .when("/dashboard", {
             templateUrl : "views/dashboard.html",
@@ -61,7 +62,7 @@ myApp.run(["$rootScope", "$location", "authFact", function ($rootScope, $locatio
 }]);
 
 //RegistrationCtrl js
-myApp.controller("RegistrationCtrl", ["$scope", "authFact", "$location", "$cookies", "$http", function ($scope, authFact, $location, $cookies, $http) {
+myApp.controller("registrationCtrl", ["$scope", "authFact", "$location", "$cookies", "$http", function ($scope, authFact, $location, $cookies, $http) {
     "use strict";
     
     $scope.registrar = function () {
@@ -148,6 +149,33 @@ myApp.controller("homeCtrl", ["$scope", "authFact", "$location", "$cookies", "$h
                 console.log('User cancelled login or did not fully authorize.');
             }
         });
+    };
+}]);
+
+//resetCtrl js
+myApp.controller("resetCtrl", ["$scope", "authFact", "$location", "$cookies", "$http", function ($scope, authFact, $location, $cookies, $http) {
+    "use strict";
+    
+    $scope.resetpass = function () {
+        var data = JSON.stringify({
+            "User_ID": null,
+            "Email" : "amino_libra@hotmail.com"
+        });
+
+        $http({
+            method: "POST",
+            url: "http://yakensolution.cloudapp.net/autocare/Api/User/ForgetPassword",
+            data: data,
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+                $scope.reply = response.data;
+                console.log(response.data);
+            }, function (reason) {
+                $scope.error = reason.data;
+                console.log(reason.data);
+        
+            });
     };
 }]);
 
