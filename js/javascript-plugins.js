@@ -185,7 +185,7 @@ myApp.controller("resetCtrl", ["$scope", "authFact", "$location", "$cookies", "$
 //dashboardCtrl js
 myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function ($scope, $location, $cookies) {
     "use strict";
-    var mainCookie = $cookies.get('userData');
+    var mainCookie = JSON.parse($cookies.get('userData'));
     var favoriteCookie = $cookies.get('userid');
     var favorite1Cookie = $cookies.get('pic');
     $scope.theid = favoriteCookie;
