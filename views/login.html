@@ -49,19 +49,19 @@
 						  			    </div>
 			  			                <span class="span-1">Need an account?</span> <a class="link1" href="" ng-click="signUp()">SignUp</a>
 			  			               <div class="login-form">
-			  			    	           <form role="form"><!--Start Contact Form-->
+			  			    	           <form role="form" name="inForm" ng-submit="UPsign()"><!--Start Contact Form-->
 								               <div class="col-md-12">
 											        <div class="form-group">
-											          <input type="text" class="form-control input-lg" placeholder="Email"></input>
+											          <input type="text" class="form-control input-lg" placeholder="Email" style="color: #fff" ng-model="UPname"></input>
 											        </div>
 											        <div class="form-group">
-											          <input type="password" class="form-control input-lg" placeholder="Password"></input>
+											          <input type="password" class="form-control input-lg" placeholder="Password" style="color: #fff" ng-model="UPpass"></input>
 											        </div>
 	      							            </div>
 	      							            <div class="col-xs-6">
 					      					
                                                 <div class="form-group">
-                                                    <button class="wow fadeIn btn btn-default btn-lg " data-wow-duration="6s" ng-click="UPsign()">Sign in</button>
+                                                    <button class="wow fadeIn btn btn-default btn-lg " data-wow-duration="6s" type="submit">Sign in</button>
                                                 </div>
 					      						
 	      							           </div>
@@ -91,7 +91,7 @@
 </section>
 <!-- Javascript 
     ================================================== -->
-       <script src="js/jquery-1.12.1.js"></script>
+       <script src="js/jquery-3.1.1.min.js"></script>
        <script src="js/bootstrap.min.js"></script>
 	   <script src="js/wow.min.js"></script>
 	   <script > new WOW().init();</script>

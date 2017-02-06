@@ -1,4 +1,4 @@
-/*global angular, FB, console*/
+/*global $, angular, FB, console*/
 // app js
 var myApp = angular.module("myApp", ["ngRoute", "ngCookies"]);
 window.fbAsyncInit = function () {
@@ -26,7 +26,7 @@ myApp.config(["$routeProvider", function ($routeProvider) {
     $routeProvider
         .when("/", {
             templateUrl : "views/login.html",
-            controller : "homeCtrl"
+            controller : "loginCtrl"
         })
         .when("/signup", {
             templateUrl : "views/contact-create-account.html",
@@ -68,58 +68,89 @@ myApp.controller("registrationCtrl", ["$scope", "authFact", "$location", "$cooki
     
     $scope.registrar = function () {
         if ($scope.regpass === $scope.regpassConf) {
-            console.log($scope.regname);
-            console.log($scope.regemail);
-            console.log($scope.regpass);
-        /*var data = JSON.stringify({
-            "Name": $scope.regname,
-            "ImgURL" : "akdjhadkha",
-            "Password" : $scope.regpass,
-            "Login_Type": "1",
-            "EMail": $scope.regemail
+            
+            var data = JSON.stringify({
+                "Name": $scope.regname,
+                "ImgURL" : "akdjhadkha",
+                "Password" : $scope.regpass,
+                "Login_Type": "1",
+                "EMail": $scope.regemail
 
+            });
+
+            $http({
+                method: "POST",
+                url: "http://yakensolution.cloudapp.net/Charity/Api/User/Regesteration",
+                data: data,
+                headers: {'Content-Type': 'application/json'}
+            })
+                .then(function (response) {
+                    $scope.regReply = response.data;
+                    console.log(response.data);
+                    console.log($scope.regReply.IsSuccess);
+                    console.log($scope.regReply.ErrorMessage);
+                    if ($scope.regReply.IsSuccess) {
+                        $('#vercode').modal("show");
+                    } else {
+                        $('#vercodeerror').modal("show");
+                    }
+                }, function (reason) {
+                    $scope.regError = reason.data;
+                    console.log(reason.data);
+
+                });
+            
+            
+            
+        }
+    };
+    $scope.verification = function () {
+        
+        console.log($scope.regReply.UserID);
+        console.log($scope.verCode);
+        
+        
+        /*var data = JSON.stringify({
+            "User_ID" : $scope.regReply.UserID,
+            "VerficationCode": $scope.verCode
         });
 
         $http({
             method: "POST",
-            url: "http://yakensolution.cloudapp.net/Charity/Api/User/Regesteration",
+            url: "http://yakensolution.cloudapp.net/Charity/Api/User/VerfiedAccnt",
             data: data,
             headers: {'Content-Type': 'application/json'}
         })
             .then(function (response) {
-                $scope.reply = response.data;
+                $scope.verReply = response.data;
                 console.log(response.data);
             }, function (reason) {
-                $scope.error = reason.data;
+                $scope.verError = reason.data;
                 console.log(reason.data);
 
             });*/
-        }
     };
     
     
     
 }]);
 
-//homeCtrl js
-myApp.controller("homeCtrl", ["$scope", "authFact", "$location", "$cookies", "$http", function ($scope, authFact, $location, $cookies, $http) {
+//loginCtrl js
+myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$http", function ($scope, authFact, $location, $cookies, $http) {
     "use strict";
-    $scope.name = "Login Please";
     $scope.signUp = function () {$location.path("/signup"); };
     $scope.forgetpass = function () {$location.path("/resetpassword"); };
     
     $scope.UPsign = function () {
         
         var data = JSON.stringify({
-            "User_ID" : "9C427DE4-CAEC-4806-97F7-D3368B6A591E",
-            "Password" : "234",
-            "Email" : "test@hotmail.com",
-            "Device_Token" : "test"
+            "Email": $scope.UPname,
+            "Password": $scope.UPpass
         });
         
         $http({
             method: "POST",
-            url: "http://yakensolution.cloudapp.net/autocare/Api/User/Login",
+            url: "http://yakensolution.cloudapp.net/Charity/Api/User/Login",
             data: data,
             headers: {'Content-Type': 'application/json'}
         })
@@ -160,23 +191,55 @@ myApp.controller("homeCtrl", ["$scope", "authFact", "$location", "$cookies", "$h
 myApp.controller("resetCtrl", ["$scope", "authFact", "$location", "$cookies", "$http", function ($scope, authFact, $location, $cookies, $http) {
     "use strict";
     
-    $scope.resetpass = function () {
+    $scope.forgetpass = function () {
         var data = JSON.stringify({
-            "User_ID": null,
-            "Email" : "amino_libra@hotmail.com"
+            "Email" : $scope.forgetpassemail
         });
 
         $http({
             method: "POST",
-            url: "http://yakensolution.cloudapp.net/autocare/Api/User/ForgetPassword",
+            url: "http://yakensolution.cloudapp.net/Charity/Api/User/ForgetPassword",
             data: data,
             headers: {'Content-Type': 'application/json'}
         })
             .then(function (response) {
-                $scope.reply = response.data;
+                $scope.forgetreply = response.data;
                 console.log(response.data);
+                if ($scope.forgetreply.IsSuccess) {
+                    $('#forgetpass').modal("show");
+                } else {
+                    $('#forgetpasserror').modal("show");
+                }
             }, function (reason) {
-                $scope.error = reason.data;
+                $scope.forgeterror = reason.data;
+                console.log(reason.data);
+        
+            });
+    };
+    $scope.resetpass = function () {
+        var data = JSON.stringify({
+            "Email": $scope.repassemail,
+            "Password": $scope.repasspass,
+            "ConfirmPassword": $scope.repassrepass,
+            "VerficationCode": $scope.repassconfcode
+        });
+
+        $http({
+            method: "POST",
+            url: "http://yakensolution.cloudapp.net/Charity/Api/User/ResetPassword",
+            data: data,
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+                $scope.resetreply = response.data;
+                console.log(response.data);
+                if ($scope.resetreply.IsSuccess) {
+                    $location.path("/");
+                } else {
+                    $('#resetpasserror').modal("show");
+                }
+            }, function (reason) {
+                $scope.reseterror = reason.data;
                 console.log(reason.data);
         
             });
