@@ -308,7 +308,8 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function (
     //profile page
     $scope.profile = function () {$location.path("/profile"); };
     //logout
-    $scope.logout = function () {
+    $('#logout').on("click", function(){ logout(); return false; });
+    var logout = function () {
         $location.path("/");
         $cookies.remove("accessToken");
         $cookies.remove("userid");
