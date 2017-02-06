@@ -52,7 +52,7 @@
 			  			    	           <form role="form" name="inForm" ng-submit="UPsign()"><!--Start Contact Form-->
 								               <div class="col-md-12">
 											        <div class="form-group">
-											          <input type="text" class="form-control input-lg" placeholder="Email" style="color: #fff" ng-model="UPname"></input>
+											          <input type="text" class="form-control input-lg" placeholder="Email" style="color: #fff" ng-model="UPemail"></input>
 											        </div>
 											        <div class="form-group">
 											          <input type="password" class="form-control input-lg" placeholder="Password" style="color: #fff" ng-model="UPpass"></input>
@@ -87,6 +87,46 @@
 		  			   
 		  		</div>
 		  	</div>
+            <!-- unver log Modal -->
+            <div class="modal fade" id="unverlog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Email entered is unverified, please enter verification code sent to {{UPemail}} when you registered</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" name="unverlogForm" ng-submit="unverlog()"><!--Start Contact Form-->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="verification code" ng-model="verCodelog" required></input>
+                                    </div>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Send</button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- ver code error modal -->
+            <div class="modal fade" id="unverlogerror" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3 class="modal-title" id="myModalLabel">Sorry</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p class="lead">{{unverlogReply.ErrorMessage}}</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
 		</section>
 </section>
 <!-- Javascript 

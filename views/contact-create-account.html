@@ -82,13 +82,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Enter the verification code sent to you</h4>
+                        <h4 class="modal-title" id="myModalLabel">Enter the verification code sent to {{regemail}}</h4>
                     </div>
                     <div class="modal-body">
                         <form role="form" name="verForm" ng-submit="verification()"><!--Start Contact Form-->
                             <div class="col-md-12">
                                 <div class="form-group">
-                                  <input type="text" class="form-control input-lg" placeholder="verification code" ng-model="verCode" style="color: #fff" required></input>
+                                  <input type="text" class="form-control input-lg" placeholder="verification code" ng-model="verCode" required></input>
                                 </div>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Send</button>

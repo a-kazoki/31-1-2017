@@ -110,7 +110,7 @@ myApp.controller("registrationCtrl", ["$scope", "authFact", "$location", "$cooki
         console.log($scope.verCode);
         
         
-        /*var data = JSON.stringify({
+        var data = JSON.stringify({
             "User_ID" : $scope.regReply.UserID,
             "VerficationCode": $scope.verCode
         });
@@ -124,11 +124,18 @@ myApp.controller("registrationCtrl", ["$scope", "authFact", "$location", "$cooki
             .then(function (response) {
                 $scope.verReply = response.data;
                 console.log(response.data);
+                if ($scope.verReply.IsSuccess) {
+                    $('#vercode').modal("hide");
+                    $location.path("/");
+                } else {
+                    $('#vercode').modal("hide");
+                    $('#vercodeerror').modal("show");
+                }
             }, function (reason) {
                 $scope.verError = reason.data;
                 console.log(reason.data);
 
-            });*/
+            });
     };
     
     
@@ -138,13 +145,15 @@ myApp.controller("registrationCtrl", ["$scope", "authFact", "$location", "$cooki
 //loginCtrl js
 myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$http", function ($scope, authFact, $location, $cookies, $http) {
     "use strict";
+    //signup page
     $scope.signUp = function () {$location.path("/signup"); };
+    //forget password page
     $scope.forgetpass = function () {$location.path("/resetpassword"); };
-    
+    //user password login
     $scope.UPsign = function () {
-        
+        console.log($scope.UPpass);
         var data = JSON.stringify({
-            "Email": $scope.UPname,
+            "Email": $scope.UPemail,
             "Password": $scope.UPpass
         });
         
@@ -155,15 +164,51 @@ myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$
             headers: {'Content-Type': 'application/json'}
         })
             .then(function (response) {
-                $scope.reply = response.data;
+                $scope.UPlogreply = response.data;
                 console.log(response.data);
+                if ($scope.UPlogreply.Is_Verified) {
+                    console.log($scope.UPlogreply.Is_Verified);
+                } else {
+                    console.log($scope.UPlogreply.Is_Verified);
+                    $('#unverlog').modal("show");
+                }
             }, function (reason) {
-                $scope.error = reason.data;
+                $scope.UPlogerror = reason.data;
                 console.log(reason.data);
         
             });
     };
-    
+    //unverified login
+    $scope.unverlog = function () {
+        console.log($scope.UPlogreply.User_ID);
+        console.log($scope.verCodelog);
+        var data = {
+            "User_ID" : $scope.UPlogreply.User_ID,
+            "VerficationCode": $scope.verCodelog
+        };
+        
+        $http({
+            method: "POST",
+            url: "http://yakensolution.cloudapp.net/Charity/Api/User/VerfiedAccnt",
+            data: data,
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+                $scope.unverlogReply = response.data;
+                console.log(response.data);
+                if ($scope.unverlogReply.IsSuccess) {
+                    $('#unverlog').modal("hide");
+                } else {
+                    $('#unverlog').modal("hide");
+                    $('#unverlogerror').modal("show");
+                }
+            }, function (reason) {
+                $scope.unverlogError = reason.data;
+                console.log(reason.data);
+
+            });
+    };
+    //facebook login
     $scope.FBLogin = function () {
         FB.login(function (response) {
             if (response.authResponse) {
@@ -190,7 +235,7 @@ myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$
 //resetCtrl js
 myApp.controller("resetCtrl", ["$scope", "authFact", "$location", "$cookies", "$http", function ($scope, authFact, $location, $cookies, $http) {
     "use strict";
-    
+    //forget pass send email
     $scope.forgetpass = function () {
         var data = JSON.stringify({
             "Email" : $scope.forgetpassemail
@@ -216,6 +261,7 @@ myApp.controller("resetCtrl", ["$scope", "authFact", "$location", "$cookies", "$
         
             });
     };
+    //reset the new pass
     $scope.resetpass = function () {
         var data = JSON.stringify({
             "Email": $scope.repassemail,
@@ -234,6 +280,7 @@ myApp.controller("resetCtrl", ["$scope", "authFact", "$location", "$cookies", "$
                 $scope.resetreply = response.data;
                 console.log(response.data);
                 if ($scope.resetreply.IsSuccess) {
+                    $('#forgetpass').modal("hide");
                     $location.path("/");
                 } else {
                     $('#resetpasserror').modal("show");
@@ -258,9 +305,9 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function (
     console.log(mainCookie.email);
     console.log(favoriteCookie);
     console.log(allcookies);
-    
+    //profile page
     $scope.profile = function () {$location.path("/profile"); };
-    
+    //logout
     $scope.logout = function () {
         $location.path("/");
         $cookies.remove("accessToken");
