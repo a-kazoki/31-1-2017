@@ -75,6 +75,48 @@
 				  			   
 				</div>
 		    </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#vercode">
+            Launch demo modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="vercode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Enter the verification code sent to you</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" name="regForm" ng-submit="registrar()"><!--Start Contact Form-->
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                  <input type="text" class="form-control input-lg" placeholder="Username" ng-model="regname" style="color: #fff" required></input>
+                                </div>
+                                <div class="form-group">
+                                  <input type="text" class="form-control input-lg" placeholder="Your email" ng-model="regemail" style="color: #fff" required></input>
+                                </div>
+                                <div class="form-group">
+                                  <input type="password" class="form-control input-lg" placeholder="Password" ng-model="regpass" style="color: #fff" required></input>
+                                </div>
+                                <div class="form-group">
+                                  <input type="password" class="form-control input-lg" placeholder="Re-Password" ng-model="regpassConf" style="color: #fff" required></input>
+                                  <div ng-show="regpass !== regpassConf">Password should match Re-Password</div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-xs-offset-3">
+                                <button type="submit" class="btn btn-default btn-lg ">Sign Up</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 		</section>
 <!-- Javascript 
     ================================================== -->
