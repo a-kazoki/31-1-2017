@@ -308,8 +308,7 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function (
     //profile page
     $scope.profile = function () {$location.path("/profile"); };
     //logout
-    $('#logout').on("click", function(){ logout(); return false; });
-    var logout = function () {
+    $scope.logout = function () {
         $location.path("/");
         var cookies = $cookies.getAll();
         angular.forEach(cookies, function (v, k) {
