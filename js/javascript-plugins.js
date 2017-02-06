@@ -311,9 +311,11 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function (
     $('#logout').on("click", function(){ logout(); return false; });
     var logout = function () {
         $location.path("/");
-        $cookies.remove("accessToken");
-        $cookies.remove("userid");
-        $scope.theid = "";
+        var cookies = $cookies.getAll();
+        angular.forEach(cookies, function (v, k) {
+        $cookies.remove(k);
+        });
+        
     };
 }]);
 
