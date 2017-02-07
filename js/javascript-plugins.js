@@ -310,7 +310,7 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function (
     //logout
     $scope.logout = function () {
         $location.path("/");
-        $cookies.remove("pic");
+        $cookies.remove("accessToken");
     };
 }]);
 
