@@ -310,11 +310,7 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function (
     //logout
     $scope.logout = function () {
         $location.path("/");
-        var cookies = $cookies.getAll();
-        angular.forEach(cookies, function (v, k) {
-        $cookies.remove(k);
-        });
-        
+        $cookies.remove(accessToken);
     };
 }]);
 
