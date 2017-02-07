@@ -320,11 +320,12 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", function ($s
     var mainCookie = JSON.parse($cookies.get('userData'));
     var favoriteCookie = $cookies.get('userid');
     var favorite1Cookie = $cookies.get('pic');
-    $scope.udata = $cookies.get('userData');
-    console.log(udata);
-    console.log(udata.name);
     $scope.uname = mainCookie.name;
+    $scope.uemail = mainCookie.email;
     $scope.upic = mainCookie.picture.data.url;
+    $scope.uaddress = mainCookie.Address;
+    $scope.umobilnumber = mainCookie.MobilNumber;
+    $scope.ugender = mainCookie.Gender;
     var allcookies = $cookies.getAll();
     console.log(mainCookie.email);
     console.log(favoriteCookie);
