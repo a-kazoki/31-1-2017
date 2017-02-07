@@ -167,7 +167,11 @@ myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$
                 $scope.UPlogreply = response.data;
                 console.log(response.data);
                 if ($scope.UPlogreply.Is_Verified) {
-                    console.log($scope.UPlogreply.Is_Verified);
+                    $cookies.putObject('userData', response.data);
+                    var accessToken = $scope.UPlogreply.User_ID;
+                    console.log(accessToken);
+                    authFact.setAccessToken(accessToken);
+                    $location.path("/dashboard");
                 } else {
                     console.log($scope.UPlogreply.Is_Verified);
                     $('#unverlog').modal("show");
@@ -216,14 +220,44 @@ myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$
                 FB.api('/me', {fields: 'id,name,email,picture'}, function (response) {
                     console.log('Good to see you, ' + response.name + '.');
                     console.log(response);
-                    $cookies.putObject('userData', response);
+                    //must change facebook can login user and pass
+                    var data = JSON.stringify({
+                        "Name": response.name,
+                        "ImgURL" : response.picture.data.url,
+                        "Facebook_ID" : response.id,
+                        "Login_Type": "2",
+                        "EMail": response.email
+                    });
+
+                    $http({
+                        method: "POST",
+                        url: "http://yakensolution.cloudapp.net/Charity/Api/User/Regesteration",
+                        data: data,
+                        headers: {'Content-Type': 'application/json'}
+                    })
+                        .then(function (response) {
+                            $scope.fbReply = response.data;
+                            console.log(response.data);
+                            console.log($scope.fbReply.IsSuccess);
+                            console.log($scope.fbReply.ErrorMessage);
+                            if ($scope.fbReply.IsSuccess) {
+                                $('#vercode').modal("show");
+                            } else {
+                                $('#vercodeerror').modal("show");
+                            }
+                        }, function (reason) {
+                            $scope.fbError = reason.data;
+                            console.log(reason.data);
+                        });
+                    
+                    /*$cookies.putObject('userData', response);
                     $cookies.put('userid', response.id);
                     $cookies.put('pic', response.picture.data.url);
                     var accessToken = FB.getAuthResponse().accessToken;
                     console.log(accessToken);
                     authFact.setAccessToken(accessToken);
                     $location.path("/dashboard");
-                    $scope.$apply();
+                    $scope.$apply();*/
                 });
             } else {
                 console.log('User cancelled login or did not fully authorize.');
@@ -297,13 +331,8 @@ myApp.controller("resetCtrl", ["$scope", "authFact", "$location", "$cookies", "$
 myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function ($scope, $location, $cookies) {
     "use strict";
     var mainCookie = JSON.parse($cookies.get('userData'));
-    var favoriteCookie = $cookies.get('userid');
-    var favorite1Cookie = $cookies.get('pic');
-    $scope.theid = favoriteCookie;
-    $scope.thepic = favorite1Cookie;
     var allcookies = $cookies.getAll();
     console.log(mainCookie.email);
-    console.log(favoriteCookie);
     console.log(allcookies);
     //profile page
     $scope.profile = function () {$location.path("/profile"); };
@@ -318,8 +347,6 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", function (
 myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", function ($scope, $location, $cookies) {
     "use strict";
     var mainCookie = JSON.parse($cookies.get('userData'));
-    var favoriteCookie = $cookies.get('userid');
-    var favorite1Cookie = $cookies.get('pic');
     $scope.uname = mainCookie.name;
     $scope.uemail = mainCookie.email;
     $scope.upic = mainCookie.picture.data.url;
@@ -327,8 +354,6 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", function ($s
     $scope.umobilnumber = mainCookie.MobilNumber;
     $scope.ugender = mainCookie.Gender;
     var allcookies = $cookies.getAll();
-    console.log(mainCookie.email);
-    console.log(favoriteCookie);
     console.log(allcookies);
     
     /*$scope.profile = function () {$location.path("/profile"); };
@@ -336,7 +361,6 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", function ($s
     $scope.logout = function () {
         $location.path("/");
         $cookies.remove("accessToken");
-        $cookies.remove("userid");
         $scope.theid = "";
     };*/
 }]);
