@@ -264,7 +264,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="" ng-click="logout()" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -306,7 +306,7 @@
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
         <li class=" treeview">
-          <a href="index.html">
+          <a href="" ng-click="newsfeed()">
             <i class="fa fa-dashboard"></i> <span>News feed</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">new</small>
@@ -356,7 +356,7 @@
        My profile
       </h1>
       <ol class="breadcrumb">
-        <li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="index.html"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="">Upload</a></li>
         <li class="active">My profile</li>
       </ol>
@@ -471,7 +471,6 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="activity" data-toggle="tab">Settings</a></li>
-              <li><a href="settings" data-toggle="tab">Settings</a></li>
             </ul>
             <div class="tab-content">
               <div class="active tab-pane" id="activity">
@@ -489,168 +488,15 @@
                         <p class="control-label"><span class="lead">Address: </span>{{uaddress}}</p>
                         <br>
                         <p class="control-label"><span class="lead">Gender: </span>{{ugender}}</p>
+                        <br><br>
+                        <a href="" data-toggle="modal" data-target="#updatedata">Edit my profile<i class="fa fa-edit " aria-hidden="true"></i></a>
+                        
                     </div>
                   </div>
                 </div>
-              <!-- /.tab-pane -->
-              <div class="tab-pane" id="timeline">
-                <!-- The timeline -->
-                <ul class="timeline timeline-inverse">
-                  <!-- timeline time label -->
-                  <li class="time-label">
-                        <span class="bg-red">
-                          10 Feb. 2016
-                        </span>
-                  </li>
-                  <!-- /.timeline-label -->
-                  <!-- timeline item -->
-                  <li>
-                    <i class="fa fa-envelope bg-blue"></i>
+              
 
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-                      <h3 class="timeline-header"><a href="">Support Team</a> sent you an email</h3>
-
-                      <div class="timeline-body">
-                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                        quora plaxo ideeli hulu weebly balihoo...
-                      </div>
-                      <div class="timeline-footer">
-                        <a class="btn btn-primary btn-xs">Read more</a>
-                        <a class="btn btn-danger btn-xs">Delete</a>
-                      </div>
-                    </div>
-                  </li>
-                  <!-- END timeline item -->
-                  <!-- timeline item -->
-                  <li>
-                    <i class="fa fa-user bg-aqua"></i>
-
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
-
-                      <h3 class="timeline-header no-border"><a href="">Sarah Young</a> accepted your friend request
-                      </h3>
-                    </div>
-                  </li>
-                  <!-- END timeline item -->
-                  <!-- timeline item -->
-                  <li>
-                    <i class="fa fa-comments bg-yellow"></i>
-
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-
-                      <h3 class="timeline-header"><a href="">Jay White</a> commented on your post</h3>
-
-                      <div class="timeline-body">
-                        Take me to your leader!
-                        Switzerland is small and neutral!
-                        We are more like Germany, ambitious and misunderstood!
-                      </div>
-                      <div class="timeline-footer">
-                        <a class="btn btn-warning btn-flat btn-xs">View comment</a>
-                      </div>
-                    </div>
-                  </li>
-                  <!-- END timeline item -->
-                  <!-- timeline time label -->
-                  <li class="time-label">
-                        <span class="bg-green">
-                          3 Jan. 2016
-                        </span>
-                  </li>
-                  <!-- /.timeline-label -->
-                  <!-- timeline item -->
-                  <li>
-                    <i class="fa fa-camera bg-purple"></i>
-
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
-
-                      <h3 class="timeline-header"><a href="">Mina Lee</a> uploaded new photos</h3>
-
-                      <div class="timeline-body">
-                        <img src="http://placehold.it/150x100" alt="..." class="margin">
-                        <img src="http://placehold.it/150x100" alt="..." class="margin">
-                        <img src="http://placehold.it/150x100" alt="..." class="margin">
-                        <img src="http://placehold.it/150x100" alt="..." class="margin">
-                      </div>
-                    </div>
-                  </li>
-                  <!-- END timeline item -->
-                  <li>
-                    <i class="fa fa-clock-o bg-gray"></i>
-                  </li>
-                </ul>
-              </div>
-              <!-- /.tab-pane -->
-
-              <div class="tab-pane" id="settings">
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <div class="text-center">
-                        <img ng-src={{upic}} class="avatar img-circle" alt="avatar">
-                        <h6>Upload a different photo...</h6>   
-                        <div class="col-sm-4 col-sm-offset-4">
-                      <input type="file" class="form-control">
-                    </div>
-                      </div>
-                  </div>
-                    <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
-
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" placeholder="Name">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
-
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" placeholder="Name">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
-
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox"> I agree to the <a href="">terms and conditions</a>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn btn-danger">Submit</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
+              
               <!-- /.tab-pane -->
             </div>
             <!-- /.tab-content -->
@@ -811,6 +657,67 @@
 </div>
 <!-- ./wrapper -->
 </section>
+            
+            
+            <!-- update profile Modal -->
+            <div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="updatedata" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 style="color: #fff" class="modal-title" id="myModalLabel">Update Profile Information</h4>
+                        </div>
+                        <div>
+                            <form role="form" name="updatedataform" ng-submit="updatedata()"><!--Start Contact Form-->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="Name" ng-model="newname"></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="password" class="form-control input-lg" placeholder="Password" ng-model="newpass"></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="email" class="form-control input-lg" placeholder="Email" ng-model="newemail"></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="image url" ng-model="newimage"></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="Mobile Number" ng-model="newmobile"></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="Address" ng-model="newaddress"></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="Gender" ng-model="newgender"></input>
+                                    </div>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Send</button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- update profile error modal -->
+            <div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="updatedataerror" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3 style="color: #fff" class="modal-title" id="myModalLabel">Sorry</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p style="color: #fff" class="lead">{{updatereply.ErrorMessage}}</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+              
+
 <!-- jQuery 2.2.3 -->
 <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->

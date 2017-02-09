@@ -52,10 +52,10 @@
 			  			    	           <form role="form" name="inForm" ng-submit="UPsign()"><!--Start Contact Form-->
 								               <div class="col-md-12">
 											        <div class="form-group">
-											          <input type="text" class="form-control input-lg" placeholder="Email" style="color: #fff" ng-model="UPemail"></input>
+											          <input type="text" class="form-control input-lg" placeholder="Email" style="color: #fff" ng-model="UPemail" required></input>
 											        </div>
 											        <div class="form-group">
-											          <input type="password" class="form-control input-lg" placeholder="Password" style="color: #fff" ng-model="UPpass"></input>
+											          <input type="password" class="form-control input-lg" placeholder="Password" style="color: #fff" ng-model="UPpass" required></input>
 											        </div>
 	      							            </div>
 	      							            <div class="col-xs-6">
@@ -121,6 +121,21 @@
                         </div>
                         <div class="modal-body">
                             <p class="lead">{{unverlogReply.ErrorMessage}}</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- wronf info error modal -->
+            <div class="modal fade" id="wronginfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3 class="modal-title" id="myModalLabel">Sorry</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p class="lead">{{UPlogreply.ErrorMessage}}</p>
                         </div>
 
                     </div>
