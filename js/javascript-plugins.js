@@ -420,6 +420,28 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
                 console.log(response.data);
                 if (response.data.IsSuccess) {
                     $('#updatedata').modal("hide");
+                    var udata = JSON.parse($cookies.get('userData'));
+                    $scope.uid = udata.User_ID;
+                    console.log(udata.User_ID);
+                    var detdata = JSON.stringify({
+                        "User_ID" : udata.User_ID
+                    });
+
+                    $http({
+                        method: "POST",
+                        url: "http://yakensolution.cloudapp.net/Charity/Api/User/UserDetails",
+                        data: detdata,
+                        headers: {'Content-Type': 'application/json'}
+                    })
+                        .then(function (response) {
+                            $scope.detailreply = response.data;
+                            console.log(response.data);
+                            $cookies.putObject('userDetail', response.data);
+                        }, function (reason) {
+                            $scope.detailerror = reason.data;
+                            console.log(reason.data);
+
+                        });
                     $location.path("/");
                 } else {
                     $('#updatedata').modal("hide");
