@@ -160,7 +160,6 @@ myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$
                     var accessToken = $scope.UPlogreply.User_ID;
                     console.log(accessToken);
                     authFact.setAccessToken(accessToken);
-                    $location.path("/dashboard");
                 } else if ($scope.UPlogreply.IsSuccess) {
                     console.log($scope.UPlogreply.Is_Verified);
                     $('#unverlog').modal("show");
@@ -186,10 +185,10 @@ myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$
                         $scope.detailreply = response.data;
                         console.log(response.data);
                         $cookies.putObject('userDetail', response.data);
+                        $location.path("/dashboard");
                     }, function (reason) {
                         $scope.detailerror = reason.data;
                         console.log(reason.data);
-
                     });
             }, function (reason) {
                 $scope.UPlogerror = reason.data;
@@ -231,7 +230,7 @@ myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$
         FB.login(function (response) {
             if (response.authResponse) {
                 console.log('Welcome!  Fetching your information.... ');
-                FB.api('/me', {fields: 'id,name,email,picture'}, function (response) {
+                FB.api('/me', {fields: 'id,name,email,picture,gender'}, function (response) {
                     console.log('Good to see you, ' + response.name + '.');
                     console.log(response);
                     var data = JSON.stringify({
@@ -239,7 +238,8 @@ myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$
                         "ImgURL" : response.picture.data.url,
                         "FacebookID" : response.id,
                         "Login_Type": "2",
-                        "EMail": response.email
+                        "EMail": response.email,
+                        "Gender": response.gender
                     });
                     $http({
                         method: "POST",
@@ -253,7 +253,6 @@ myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$
                             var accessToken = $scope.fbReply.UserID;
                             console.log(accessToken);
                             authFact.setAccessToken(accessToken);
-                            $location.path("/dashboard");
                             var allcookies = $cookies.getAll();
                             console.log(allcookies);
                             var udata = JSON.parse($cookies.get('userData'));
@@ -273,6 +272,7 @@ myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$
                                     $scope.detailreply = response.data;
                                     console.log(response.data);
                                     $cookies.putObject('userDetail', response.data);
+                                    $location.path("/dashboard");
                                 }, function (reason) {
                                     $scope.detailerror = reason.data;
                                     console.log(reason.data);
@@ -357,6 +357,20 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", "$http", f
     
     var allcookies = $cookies.getAll();
     console.log(allcookies);
+    //settings user variables
+    var mainCookie = JSON.parse($cookies.get('userDetail'));
+    console.log(mainCookie);
+    $scope.uname = mainCookie.Name;
+    $scope.uemail = mainCookie.EMail;
+    if (mainCookie.ImgURL === null) {
+        $scope.upic = "images/avatar.png";
+        console.log($scope.upic);
+    } else {
+        $scope.upic = mainCookie.ImgURL;
+    }
+    $scope.uaddress = mainCookie.Address;
+    $scope.umobilnumber = mainCookie.MobileNumber;
+    $scope.ugender = mainCookie.Gender;
     //profile page
     $scope.profile = function () {$location.path("/profile"); };
     //logout
@@ -376,7 +390,7 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
     $scope.newsfeed = function () {$location.path("/dashboard"); };
     var allcookies = $cookies.getAll();
     console.log(allcookies);
-    
+    //settings user variables
     var mainCookie = JSON.parse($cookies.get('userDetail'));
     console.log(mainCookie);
     $scope.uname = mainCookie.Name;
@@ -476,3 +490,4 @@ myApp.factory("authFact", ["$cookies", function ($cookies) {
     };
     return authFact;
 }]);
+

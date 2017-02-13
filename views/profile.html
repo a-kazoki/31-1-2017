@@ -671,25 +671,29 @@
                             <form role="form" name="updatedataform" ng-submit="updatedata()"><!--Start Contact Form-->
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                      <input type="text" class="form-control input-lg" placeholder="Name" ng-model="newname"></input>
+                                      <input type="text" class="form-control input-lg" placeholder="Name" ng-model="newname" required></input>
                                     </div>
                                     <div class="form-group">
-                                      <input type="password" class="form-control input-lg" placeholder="Password" ng-model="newpass"></input>
+                                      <input type="password" class="form-control input-lg" placeholder="Password" ng-model="newpass" required></input>
                                     </div>
                                     <div class="form-group">
-                                      <input type="email" class="form-control input-lg" placeholder="Email" ng-model="newemail"></input>
+                                      <input type="email" class="form-control input-lg" placeholder="Email" ng-model="newemail" required></input>
                                     </div>
                                     <div class="form-group">
                                       <input type="text" class="form-control input-lg" placeholder="image url" ng-model="newimage"></input>
                                     </div>
                                     <div class="form-group">
-                                      <input type="text" class="form-control input-lg" placeholder="Mobile Number" ng-model="newmobile"></input>
+                                      <input type="text" class="form-control input-lg" placeholder="Mobile Number" ng-model="newmobile" required></input>
                                     </div>
                                     <div class="form-group">
-                                      <input type="text" class="form-control input-lg" placeholder="Address" ng-model="newaddress"></input>
+                                      <input type="text" class="form-control input-lg" placeholder="Address" ng-model="newaddress" required></input>
                                     </div>
                                     <div class="form-group">
-                                      <input type="text" class="form-control input-lg" placeholder="Gender" ng-model="newgender"></input>
+                                        <label>Gender</label><br>
+                                        <select class="form-control input-lg" ng-model="newgender" required>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
                                     </div>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Send</button>
