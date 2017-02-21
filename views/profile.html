@@ -660,7 +660,7 @@
             
             
             <!-- update profile Modal -->
-            <div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="updatedata" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div style="background-color: rgba(255, 255, 255, 0.6)" class="modal fade" id="updatedata" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -677,7 +677,8 @@
                                       <input type="password" class="form-control input-lg" placeholder="Password" ng-model="newpass" required></input>
                                     </div>
                                     <div class="form-group">
-                                      <input type="email" class="form-control input-lg" placeholder="Email" ng-model="newemail" required></input>
+                                      <input type="text" class="form-control input-lg" placeholder="Email" ng-model="newemail" required></input>
+                                        <div ng-show="uemail !== newemail">If You Change Your Email You Will RE-Verify The New One</div>
                                     </div>
                                     <div class="form-group">
                                       <input type="text" class="form-control input-lg" placeholder="image url" ng-model="newimage"></input>

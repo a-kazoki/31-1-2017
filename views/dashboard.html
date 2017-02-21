@@ -390,117 +390,125 @@
             </ul>
             <div class="tab-content no-padding causes">
               <!-- Morris chart - Sales -->
-              <div class=" text-center tab-pane active" id="ask" style="position: relative; ">
+              <div class="row text-center tab-pane active" id="ask" style="position: relative; ">
                 <h1>Cases You <span style="color:#f39c12">Created</span></h1>
-               <div class="col-md-4 col-sm-6 col-xs-12">
+               <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="case in myCases|limitTo:3">
                 <div class="info-box bg-aqua">
-                  <span class="info-box-icon"><img src="dist/img/1.jpg" class="img-responsive" style="height: 100%"></span>
+                  <span class="info-box-icon"><img src={{case.IMG}} class="img-responsive" style="height: 100%"></span>
 
                   <div class="info-box-content">
-                    <span class="info-box-text">Asked for help homeless</span>
-                    <span class="info-box-number">41,410</span>
-
-                    <div class="progress">
-                      <div class="progress-bar" style="width: 60%"></div>
-                    </div>
+                    <span class="info-box-text">{{case.CaseName}}</span>
+                    <span class="info-box-number">{{case.Amount}}</span>
                       <span class="progress-description">
-                        60% Increase in 30 Days
+                        {{case.CaseDescription}}
+                          <br>
+                          {{case.EndDate}}
                       </span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
-               </div>
-               <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="info-box bg-aqua">
-                  <span class="info-box-icon"><img src="dist/img/2.jpg" class="img-responsive" style="height: 100%"></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Collect Zakat Ramadan</span>
-                    <span class="info-box-number">50.000</span>
-                    <div class="progress">
-                      <div class="progress-bar" style="width: 90%"></div>
-                    </div>
-                    <span class="progress-description">
-                      90% Increase in 30 Days
-                    </span>
                   </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-               </div>
-               <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="info-box bg-aqua">
-                  <span class="info-box-icon"><img src="dist/img/3.jpg" class="img-responsive" style="height: 100%"></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Help illness</span>
-                    <span class="info-box-number">20.000</span>
-                    <div class="progress">
-                      <div class="progress-bar" style="width: 50%"></div>
-                    </div>
-                    <span class="progress-description">
-                      50% Increase in 30 Days
-                    </span>
+               <div>
+                   <br>
+                   <button class="btn btn-default" data-toggle="modal" data-target="#allmycases">More causes</button>
+                    <div class="modal fade" id="allmycases" tabindex="-1" role="dialog">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="background: rgba(255,255,255,0.7)">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">All My Cases</h4>
+                              <br>
+                              <button type="button" style="margin-bottom: 0" data-toggle="modal" data-target="#addcase" class="btn btn-default">Add Case</button>
+                          </div>
+                          <div class="modal-body">
+                            <div ng-repeat="case in myCases" style="background: rgba(0,0,0,0.7)">
+                                <div class="info-box bg-aqua">
+                                  <span class="info-box-icon"><img src={{case.IMG}} class="img-responsive" style="height: 100%"></span>
+                                  <div class="info-box-content">
+                                    <span class="info-box-text">Name: {{case.CaseName}}</span>
+                                    <span class="info-box-number">Target Amount: {{case.Amount}}</span>
+                                      <span class="progress-description">
+                                        Description: {{case.CaseDescription}}
+                                          <br>
+                                          End Date: {{case.EndDate}}
+                                          <br>
+                                          Number of Joined: {{case.Numberofjoins}}
+                                      </span>
+                                  </div>
+                                  <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                                <div ng-if= "case.status === 1">
+                                    <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="selecteditcase(case.CauseID)">Edit</button>
+                                    <button type="button" style="margin-bottom: 10px" class="btn btn-success" ng-click="selectcompletecase(case.CauseID)">Completed</button>
+                                    <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="selectdeletecase(case.CauseID)">Delete</button>
+                                </div>
+                                <div ng-if= "case.status === 2">
+                                    <p class="lead" style="color: #fff; padding-bottom: 5px">This Case Is Complete</p>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
                   </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-               </div>
-               <button class="btn btn-default">More causes</button>
               </div>
               <div class="text-center tab-pane" id="help" style="position: relative; ">
                 <h1>Cases You <span style="color:#f39c12">Joined</span></h1>
-                 <div class="col-md-4 col-sm-6 col-xs-12">
+                 <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="fcase in followCases|limitTo:3">
                 <div class="info-box bg-aqua">
-                  <span class="info-box-icon"><img src="dist/img/hanger.jpg" class="img-responsive" style="height: 100%"></span>
+                  <span class="info-box-icon"><img src={{fcase.IMG}} class="img-responsive" style="height: 100%"></span>
                   <div class="info-box-content">
-                    <span class="info-box-text">Helped A naeddy one</span>
-                    <span class="info-box-number">10,000</span>
-                    <div class="progress">
-                      <div class="progress-bar" style="width: 20%"></div>
-                    </div>
+                    <span class="info-box-text">{{fcase.CaseName}}</span>
+                    <span class="info-box-number">{{fcase.Amount}}</span>
                     <span class="progress-description">
-                      20% Increase in 30 Days
+                      {{fcase.CaseDescription}}
+                        <br>
+                        {{fcase.EndDate}}
                     </span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
                </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="info-box bg-aqua">
-                  <span class="info-box-icon"><img src="dist/img/3.jpg" class="img-responsive" style="height: 100%"></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Help needy</span>
-                    <span class="info-box-number">41,410</span>
-                    <div class="progress">
-                      <div class="progress-bar" style="width: 70%"></div>
-                    </div>
-                    <span class="progress-description">
-                      70% Increase in 30 Days
-                    </span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-               </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="info-box bg-aqua">
-                  <span class="info-box-icon"><img src="dist/img/2.jpg" class="img-responsive" style="height: 100%"></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">helped</span>
-                    <span class="info-box-number">41,410</span>
-                    <div class="progress">
-                      <div class="progress-bar" style="width: 30%"></div>
-                    </div>
-                    <span class="progress-description">
-                      70% Increase in 30 Days
-                    </span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-               </div>
-                <button class="btn btn-default">More cause</button>
+                <button class="btn btn-default" data-toggle="modal" data-target=".allfcases">More cause</button>
+                  <div class="modal fade allfcases" tabindex="-1" role="dialog">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="background: rgba(255,255,255,0.7)">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">All My Followed Cases</h4>
+                          </div>
+                          <div class="modal-body">
+                            <div ng-repeat="fcase in followCases" style="background: rgba(0,0,0,0.7)">
+                                <div class="info-box bg-aqua">
+                                  <span class="info-box-icon"><img src={{fcase.IMG}} class="img-responsive" style="height: 100%"></span>
+                                  <div class="info-box-content">
+                                    <span class="info-box-text">Name: {{fcase.CaseName}}</span>
+                                    <span class="info-box-number">Target Amount: {{fcase.Amount}}</span>
+                                      <span class="progress-description">
+                                        Description: {{fcase.CaseDescription}}
+                                          <br>
+                                          End Date: {{fcase.EndDate}}
+                                          <br>
+                                          Number of Joined: {{fcase.Numberofjoins}}
+                                      </span>
+                                  </div>
+                                  <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
               </div>
             </div>
           </div>
@@ -595,24 +603,24 @@
            <!-- /.box (Recent causes) -->
            <div class="box box-success" >
             <div class="box-header" id="Container">
-                <div class="row">
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="info-box bg-aqua">
-                            <span class="info-box-icon"><img src="dist/img/2.jpg" class="img-responsive" style="height: 100%"></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">Collect Zakat Ramadan</span>
-                                <span class="info-box-number">50.000</span>
-                                <div class="progress">
-                                    <div class="progress-bar" style="width: 90%"></div>
-                                </div>
-                                <span class="progress-description">
-                                    90% Increase in 30 Days
-                                </span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
+                <div>
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active" style="margin: 10px"><button class="btn btn-default " data-target="#all" aria-controls="home" role="tab" data-toggle="tab">All</button></li>
+                        <li role="presentation" style="margin: 10px"><button class="btn btn-default " data-target="#poor" aria-controls="poor" role="tab" data-toggle="tab">Profile</button></li>
+                        <li role="presentation" style="margin: 10px"><button class="btn btn-default " data-target="#needs" aria-controls="needs" role="tab" data-toggle="tab">Messages</button></li>
+                        <li role="presentation" style="margin: 10px"><button class="btn btn-default " data-target="#newhelp" aria-controls="newhelp" role="tab" data-toggle="tab">Settings</button></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="all">all</div>
+                        <div role="tabpanel" class="tab-pane" id="poor">poor</div>
+                        <div role="tabpanel" class="tab-pane" id="needs">needs</div>
+                        <div role="tabpanel" class="tab-pane" id="newhelp">help</div>
                     </div>
+
                 </div>
              </div>
             </div> 
@@ -770,6 +778,142 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
+    
+    <!-- add case Modal -->
+            <div style="background-color: rgba(255, 255, 255, 0.8)" class="modal fade" id="addcase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 style="color: #fff" class="modal-title" id="myModalLabel">Add Case</h4>
+                        </div>
+                        <div>
+                            <form role="form" name="addcaseform" ng-submit="addcase()"><!--Start Contact Form-->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="Case Name" ng-model="casename" required></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="number" class="form-control input-lg" placeholder="Case Amount" ng-model="caseamount" required></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="date" class="form-control input-lg" ng-model="casedate" required></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="Case Description" ng-model="casedes" required></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="Image" ng-model="caseimg" required></input>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Case Category</label><br>
+                                        <select class="form-control input-lg" ng-model="casecat" required>
+                                            <option ng-repeat="case in allcases" ng-value=case.CategoryID>{{case.CategoryName}}</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Send</button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- edit case Modal -->
+            <div style="background-color: rgba(255, 255, 255, 0.8)" class="modal fade" id="editcase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 style="color: #fff" class="modal-title" id="myModalLabel">Edit Case</h4>
+                        </div>
+                        <div>
+                            <form role="form" name="addcaseform" ng-submit="editcase()"><!--Start Contact Form-->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="Case Name" ng-model="newcasename" required></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="Case Amount" ng-model="newcaseamount" required></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="date" class="form-control input-lg" ng-model="newcasedate" required></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="Case Description" ng-model="newcasedes" required></input>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control input-lg" placeholder="Image" ng-model="newcaseimg" required></input>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Case Category</label><br>
+                                        <select class="form-control input-lg" ng-model="newcasecat" required>
+                                            <option ng-repeat="case in allcases" ng-value=case.CategoryID>{{case.CategoryName}}</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Send</button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- complete case modal -->
+            <div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="completecase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3 style="color: #fff" class="modal-title" id="myModalLabel">Sorry</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p style="color: #080" class="lead">Is Thiss Case Complete?</p>
+                            <button type="button" style="margin-bottom: 10px" class="btn btn-success" ng-click="completecase()">Complete</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- delete case modal -->
+            <div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="deletecase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3 style="color: #fff" class="modal-title" id="myModalLabel">Sorry</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p style="color: #f00" class="lead">Are You Sure You Want To Delete This Case</p>
+                            <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="deletecase()">Delete</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- error modal -->
+            <div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="caseerror" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3 style="color: #fff" class="modal-title" id="myModalLabel">Sorry</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p style="color: #fff" class="lead">Something Went Wrong</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+    
+    
 </section>
 <!-- jQuery 2.2.3 -->
 <script src="js/jquery-3.1.1.min.js"></script>
