@@ -65,23 +65,37 @@ myApp.run(["$rootScope", "$location", "authFact", function ($rootScope, $locatio
 //RegistrationCtrl js
 myApp.controller("registrationCtrl", ["$scope", "authFact", "$location", "$cookies", "$http", function ($scope, authFact, $location, $cookies, $http) {
     "use strict";
-    
+    var nulldata = JSON.stringify({
+            "User_ID": null
+        });
+    //get category list
     $http({
         method: "POST",
         url: "http://yakensolution.cloudapp.net/Charity/Api/Category/GetAllCategories",
-        data: null,
+        data: nulldata,
         headers: {'Content-Type': 'application/json'}
     })
         .then(function (response) {
-            $scope.allcasesreply = response.data;
             console.log(response.data);
-            //all category cases
-            $scope.allcases = $scope.allcasesreply.AllCategories;
+            $scope.allcases = response.data.AllCategories;
         }, function (reason) {
             $scope.allcaseserror = reason.data;
             console.log(reason.data);
         });
-    
+    //get country list
+    $http({
+        method: "POST",
+        url: "http://yakensolution.cloudapp.net/Charity/Api/Country/AllCountries",
+        data: nulldata,
+        headers: {'Content-Type': 'application/json'}
+    })
+        .then(function (response) {
+            console.log(response.data);
+            $scope.allcountries = response.data.AllCategories;
+        }, function (reason) {
+            $scope.allcaseserror = reason.data;
+            console.log(reason.data);
+        });
     
     $scope.registrar = function () {
         if ($scope.regpass === $scope.regpassConf) {

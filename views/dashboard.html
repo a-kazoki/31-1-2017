@@ -422,30 +422,57 @@
                               <button type="button" style="margin-bottom: 0" data-toggle="modal" data-target="#addcase" class="btn btn-default">Add Case</button>
                           </div>
                           <div class="modal-body">
-                            <div ng-repeat="case in myCases" style="background: rgba(0,0,0,0.7)">
-                                <div class="info-box bg-aqua">
-                                  <span class="info-box-icon"><img src={{case.IMG}} class="img-responsive" style="height: 100%"></span>
-                                  <div class="info-box-content">
-                                    <span class="info-box-text">Name: {{case.CaseName}}</span>
-                                    <span class="info-box-number">Target Amount: {{case.Amount}}</span>
-                                      <span class="progress-description">
-                                        Description: {{case.CaseDescription}}
-                                          <br>
-                                          End Date: {{case.EndDate}}
-                                          <br>
-                                          Number of Joined: {{case.Numberofjoins}}
-                                      </span>
-                                  </div>
-                                  <!-- /.info-box-content -->
+                          <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active" style="margin: 10px"><button class="btn btn-default " data-target="#myactivecases" aria-controls="myactivecases" role="tab" data-toggle="tab">Ongoing Cases</button></li>
+                                <li role="presentation" style="margin: 10px"><button class="btn btn-default " data-target="#myhistorycases" aria-controls="myhistorycases" role="tab" data-toggle="tab">My Completed Cases</button></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="myactivecases">
+                                    <div ng-repeat="case in myCases" style="background: rgba(0,0,0,0.7)" ng-if= "case.status === 1">
+                                        <div class="info-box bg-aqua">
+                                          <span class="info-box-icon"><img src={{case.IMG}} class="img-responsive" style="height: 100%"></span>
+                                          <div class="info-box-content">
+                                            <span class="info-box-text">Name: {{case.CaseName}}</span>
+                                            <span class="info-box-number">Target Amount: {{case.Amount}}</span>
+                                              <span class="progress-description">
+                                                Description: {{case.CaseDescription}}
+                                                  <br>
+                                                  End Date: {{case.EndDate}}
+                                                  <br>
+                                                  Number of Joined: {{case.Numberofjoins}}
+                                              </span>
+                                          </div>
+                                          <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                        <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="selecteditcase(case.CauseID)">Edit</button>
+                                        <button type="button" style="margin-bottom: 10px" class="btn btn-success" ng-click="selectcompletecase(case.CauseID)">Completed</button>
+                                        <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="selectdeletecase(case.CauseID)">Delete</button>
+                                    </div>
                                 </div>
-                                <!-- /.info-box -->
-                                <div ng-if= "case.status === 1">
-                                    <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="selecteditcase(case.CauseID)">Edit</button>
-                                    <button type="button" style="margin-bottom: 10px" class="btn btn-success" ng-click="selectcompletecase(case.CauseID)">Completed</button>
-                                    <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="selectdeletecase(case.CauseID)">Delete</button>
-                                </div>
-                                <div ng-if= "case.status === 2">
-                                    <p class="lead" style="color: #fff; padding-bottom: 5px">This Case Is Complete</p>
+                                <div role="tabpanel" class="tab-pane" id="myhistorycases">
+                                    <div ng-repeat="case in myCases" style="background: rgba(0,0,0,0.7)" ng-if= "case.status === 2">
+                                        <div class="info-box bg-aqua">
+                                          <span class="info-box-icon"><img src={{case.IMG}} class="img-responsive" style="height: 100%"></span>
+                                          <div class="info-box-content">
+                                            <span class="info-box-text">Name: {{case.CaseName}}</span>
+                                            <span class="info-box-number">Target Amount: {{case.Amount}}</span>
+                                              <span class="progress-description">
+                                                Description: {{case.CaseDescription}}
+                                                  <br>
+                                                  End Date: {{case.EndDate}}
+                                                  <br>
+                                                  Number of Joined: {{case.Numberofjoins}}
+                                              </span>
+                                          </div>
+                                          <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                        <p class="lead" style="color: #fff; padding-bottom: 5px">This Case Is Complete</p>
+                                    </div>
                                 </div>
                             </div>
                           </div>
