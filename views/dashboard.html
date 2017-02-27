@@ -477,17 +477,27 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active" style="margin: 10px"><button class="btn btn-default " data-target="#all" aria-controls="home" role="tab" data-toggle="tab">All</button></li>
-                        <li role="presentation" style="margin: 10px"><button class="btn btn-default " data-target="#poor" aria-controls="poor" role="tab" data-toggle="tab">Profile</button></li>
-                        <li role="presentation" style="margin: 10px"><button class="btn btn-default " data-target="#needs" aria-controls="needs" role="tab" data-toggle="tab">Messages</button></li>
-                        <li role="presentation" style="margin: 10px"><button class="btn btn-default " data-target="#newhelp" aria-controls="newhelp" role="tab" data-toggle="tab">Settings</button></li>
+                        <li role="presentation" style="margin: 10px"><button class="btn btn-default " data-target="#mine" aria-controls="mine" role="tab" data-toggle="tab">newsfeed my cases</button></li>
+                        <li role="presentation" style="margin: 10px"><button class="btn btn-default " data-target="#needs" aria-controls="needs" role="tab" data-toggle="tab">newsfeed follow cases</button></li>
                     </ul>
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="all">all</div>
-                        <div role="tabpanel" class="tab-pane" id="poor">poor</div>
-                        <div role="tabpanel" class="tab-pane" id="needs">needs</div>
-                        <div role="tabpanel" class="tab-pane" id="newhelp">help</div>
+                        <div role="tabpanel" class="tab-pane active" id="all">
+                            all
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="mine">
+                            <div class="item" ng-repeat="newsfeed in mycasesnews">
+                                <img src="{{newsfeed.IMG}}" alt="user image" style="width: 40px; border-radius: 50%" class="responsive">
+                                    <a href="" class="name">
+                                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i>{{newsfeed.EndDate}}</small>
+                                        {{newsfeed.CaseName}}
+                                    </a>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="needs">
+                            needs
+                        </div>
                     </div>
 
                 </div>

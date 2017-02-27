@@ -379,6 +379,7 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", "$http", f
     var uiddata = JSON.stringify({
             "User_ID": $scope.uid
         });
+    // get user details
     $http({
         method: "POST",
         url: "http://yakensolution.cloudapp.net/Charity/Api/User/UserDetails",
@@ -405,6 +406,24 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", "$http", f
             $scope.myCases = response.data.MyCases;
             //followed cases
             $scope.followCases = response.data.JoinedCases;
+        }, function (reason) {
+            $scope.detailerror = reason.data;
+            console.log(reason.data);
+        });
+    // get newsfeed
+    $http({
+        method: "POST",
+        url: "http://yakensolution.cloudapp.net/Charity/Api/User/Newsfeed",
+        data: uiddata,
+        headers: {'Content-Type': 'application/json'}
+    })
+        .then(function (response) {
+            console.log(response.data);
+            //settings user newsfeed
+            var newsfeed = response.data;
+            //my newsfeed
+            $scope.mycasesnews = response.data.MyANDJoinedCasesList;
+            $scope.fcasesnews = response.data.FollowingCassesList;
         }, function (reason) {
             $scope.detailerror = reason.data;
             console.log(reason.data);
