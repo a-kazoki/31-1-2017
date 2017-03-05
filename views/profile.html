@@ -438,8 +438,6 @@
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">All My Cases</h4>
-                              <br>
-                              <button type="button" style="margin-bottom: 0" data-toggle="modal" data-target="#addcase" class="btn btn-default">Add Case</button>
                           </div>
                           <div class="modal-body">
                           <!-- Nav tabs -->
@@ -573,7 +571,7 @@
                             <br>
                             <p class="control-label"><span class="lead">Mobile number: </span>{{umobilnumber}}</p>
                             <br>
-                            <p class="control-label"><span class="lead">Preference: </span>{{umobilnumber}}</p>
+                            <p class="control-label"><span class="lead">Preference: </span>{{ucategory}}</p>
                             <br>
                             <p class="control-label"><span class="lead">Location: </span>{{uaddress}}</p>
                             <br>
@@ -761,42 +759,42 @@
                 <form role="form" name="updatedataform" ng-submit="updatedata()"><!--Start Contact Form-->
                     <div class="col-md-12">
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Name" ng-model="newname" required></input>
+                          <input type="text" class="form-control input-lg" placeholder="Name" ng-model="newname"></input>
                         </div>
                         <div class="form-group">
                           <input type="password" class="form-control input-lg" placeholder="Password" ng-model="newpass" required></input>
                         </div>
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Email" ng-model="newemail" required></input>
+                          <input type="text" class="form-control input-lg" placeholder="Email" ng-model="newemail"></input>
                             <div ng-show="uemail !== newemail">If You Change Your Email You Will RE-Verify The New One</div>
                         </div>
                         <div class="form-group">
                           <input type="text" class="form-control input-lg" placeholder="image url" ng-model="newimage"></input>
                         </div>
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Mobile Number" ng-model="newmobile" required></input>
+                          <input type="text" class="form-control input-lg" placeholder="Mobile Number" ng-model="newmobile"></input>
                         </div>
                         <div class="form-group">
-                            <select class="form-control input-lg" ng-model="newcat">
+                            <select class="form-control input-lg" ng-model="newcat" required>
                                 <option value="" disabled ng-selecte>Prefrence Category</option>
                                 <option ng-repeat="case in allcases" ng-value=case.CategoryID>{{case.CategoryName}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <select class="form-control input-lg" ng-model="newcountry" ng-change="getcity()">
-                                <option value="" disabled ng-selecte>Country</option>
+                                <option value="" ng-selecte>Country</option>
                                 <option ng-repeat="country in allcountries" ng-value=country.CountryID>{{country.Countryname}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <select class="form-control input-lg" ng-model="newcity">
-                                <option value="" disabled ng-selecte>City</option>
+                                <option value="" ng-selecte>City</option>
                                 <option ng-repeat="city in allcities" ng-value=city.CityID>{{city.CityName}}</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <select class="form-control input-lg" ng-model="newgender" required>
-                                <option value="" disabled ng-selecte>Gender</option>
+                            <select class="form-control input-lg" ng-model="newgender">
+                                <option value="" ng-selecte>Gender</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>

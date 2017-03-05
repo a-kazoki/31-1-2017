@@ -211,7 +211,7 @@ myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$
                 $scope.UPlogreply = response.data;
                 console.log(response.data);
                 if ($scope.UPlogreply.Is_Verified) {
-                    $cookies.putObject('userData', response.data);
+                    $cookies.putObject('userData', response.data.User_ID);
                     var accessToken = $scope.UPlogreply.User_ID;
                     console.log(accessToken);
                     authFact.setAccessToken(accessToken);
@@ -285,7 +285,7 @@ myApp.controller("loginCtrl", ["$scope", "authFact", "$location", "$cookies", "$
                         .then(function (response) {
                             $scope.fbReply = response.data;
                             if ($scope.fbReply.IsSuccess) {
-                                $cookies.putObject('userData', response.data);
+                                $cookies.putObject('userData', response.data.UserID);
                                 var accessToken = $scope.fbReply.UserID;
                                 console.log(accessToken);
                                 authFact.setAccessToken(accessToken);
@@ -374,7 +374,7 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", "$http", f
     "use strict";
     //api for user details and all cases
     var udata = JSON.parse($cookies.get('userData'));
-    $scope.uid = udata.User_ID;
+    $scope.uid = udata;
     console.log($scope.uid);
     var uiddata = JSON.stringify({
             "User_ID": $scope.uid
@@ -429,6 +429,40 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", "$http", f
             console.log(reason.data);
         });
     
+    //search
+    $scope.searchusercases = function () {
+        
+        var searchdata = JSON.stringify({
+            "SearchWord": $scope.searchword,
+            "SearchType": $scope.searchtype,
+            "User_ID": $scope.uid
+        });
+        
+        $http({
+            method: "POST",
+            url: "http://yakensolution.cloudapp.net/Charity/Api/User/Search",
+            data: searchdata,
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+                console.log(response.data);
+                if (response.data.IsSuccess) {
+                    if ($scope.searchtype === "1") {
+                        $scope.searchcases = response.data.SearchedCases;
+                        $('#searchcases').modal("show");
+                    } else if ($scope.searchtype === "2") {
+                        $scope.searchusers = response.data.SearchedPepole;
+                        $('#searchusers').modal("show");
+                    }
+                } else {
+                    $scope.errormessage = response.data.ErrorMessage;
+                    $('#errormessage').modal("show");
+                }
+            }, function (reason) {
+                $scope.searchdataerror = reason.data;
+                console.log(reason.data);
+            });
+    };
     
     
     //profile page
@@ -444,19 +478,62 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", "$http", f
 //profileCtrl js
 myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", function ($scope, $location, $cookies, $http) {
     "use strict";
-    var nulldata = JSON.stringify({
-            "User_ID": null
+    //dashboard page
+    $scope.newsfeed = function () {$location.path("/dashboard"); };
+    var allcookies = $cookies.getAll();
+    console.log(allcookies);
+    //api for user details and all cases
+    var udata = JSON.parse($cookies.get('userData'));
+    $scope.uid = udata;
+    console.log($scope.uid);
+    var uiddata = JSON.stringify({
+            "User_ID": $scope.uid
         });
-    //get category list
     $http({
         method: "POST",
-        url: "http://yakensolution.cloudapp.net/Charity/Api/Category/GetAllCategories",
-        data: nulldata,
+        url: "http://yakensolution.cloudapp.net/Charity/Api/User/UserDetails",
+        data: uiddata,
         headers: {'Content-Type': 'application/json'}
     })
         .then(function (response) {
             console.log(response.data);
-            $scope.allcases = response.data.AllCategories;
+            //settings user variables
+            var mainCookie = response.data;
+            console.log(mainCookie);
+            $scope.uname = mainCookie.Name;
+            $scope.uemail = mainCookie.EMail;
+            if (mainCookie.ImgURL === null) {
+                $scope.upic = "images/avatar.png";
+                console.log($scope.upic);
+            } else {
+                $scope.upic = mainCookie.ImgURL;
+            }
+            $scope.uaddress = mainCookie.Address;
+            $scope.umobilnumber = mainCookie.MobileNumber;
+            $scope.ucategory = mainCookie.InterstedCategory;
+            $scope.utrusted = mainCookie.IsTrusted;
+            $scope.ugender = mainCookie.Gender;
+            //my cases
+            $scope.myCases = response.data.MyCases;
+            //followed cases
+            $scope.followCases = response.data.JoinedCases;
+        }, function (reason) {
+            $scope.detailerror = reason.data;
+            console.log(reason.data);
+        });
+    
+    //get category list
+    $http({
+        method: "POST",
+        url: "http://yakensolution.cloudapp.net/Charity/Api/Category/GetAllCategories",
+        data: uiddata,
+        headers: {'Content-Type': 'application/json'}
+    })
+        .then(function (response) {
+            $scope.allcasesreply = response.data;
+            console.log(response.data);
+            //all category cases
+            $scope.allcases = $scope.allcasesreply.AllCategories;
         }, function (reason) {
             $scope.allcaseserror = reason.data;
             console.log(reason.data);
@@ -465,7 +542,7 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
     $http({
         method: "POST",
         url: "http://yakensolution.cloudapp.net/Charity/Api/Country/AllCountries",
-        data: nulldata,
+        data: null,
         headers: {'Content-Type': 'application/json'}
     })
         .then(function (response) {
@@ -494,63 +571,6 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
                 console.log(reason.data);
             });
     };
-    //dashboard page
-    $scope.newsfeed = function () {$location.path("/dashboard"); };
-    var allcookies = $cookies.getAll();
-    console.log(allcookies);
-    //api for user details and all cases
-    var udata = JSON.parse($cookies.get('userData'));
-    $scope.uid = udata.User_ID;
-    console.log($scope.uid);
-    var uiddata = JSON.stringify({
-            "User_ID": $scope.uid
-        });
-    $http({
-        method: "POST",
-        url: "http://yakensolution.cloudapp.net/Charity/Api/User/UserDetails",
-        data: uiddata,
-        headers: {'Content-Type': 'application/json'}
-    })
-        .then(function (response) {
-            console.log(response.data);
-            //settings user variables
-            var mainCookie = response.data;
-            console.log(mainCookie);
-            $scope.uname = mainCookie.Name;
-            $scope.uemail = mainCookie.EMail;
-            if (mainCookie.ImgURL === null) {
-                $scope.upic = "images/avatar.png";
-                console.log($scope.upic);
-            } else {
-                $scope.upic = mainCookie.ImgURL;
-            }
-            $scope.uaddress = mainCookie.Address;
-            $scope.umobilnumber = mainCookie.MobileNumber;
-            $scope.utrusted = mainCookie.IsTrusted;
-            $scope.ugender = mainCookie.Gender;
-            //my cases
-            $scope.myCases = response.data.MyCases;
-            //followed cases
-            $scope.followCases = response.data.JoinedCases;
-        }, function (reason) {
-            $scope.detailerror = reason.data;
-            console.log(reason.data);
-        });
-    $http({
-        method: "POST",
-        url: "http://yakensolution.cloudapp.net/Charity/Api/Category/GetAllCategories",
-        data: uiddata,
-        headers: {'Content-Type': 'application/json'}
-    })
-        .then(function (response) {
-            $scope.allcasesreply = response.data;
-            console.log(response.data);
-            //all category cases
-            $scope.allcases = $scope.allcasesreply.AllCategories;
-        }, function (reason) {
-            $scope.allcaseserror = reason.data;
-            console.log(reason.data);
-        });
     
     //add case
     $scope.addcase = function () {
@@ -559,7 +579,7 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
             month = dates.substr(6, 2),
             day = dates.substr(9, 2),
             year = dates.substr(1, 4);
-        $scope.uid = udata.User_ID;
+        $scope.uid = udata;
         $scope.date =  month + "/" + day + "/" + year;
         console.log($scope.date);
         console.log($scope.uid);
@@ -586,7 +606,7 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
                 } else {
                     $('#addcase').modal("hide");
                     $('#allmycases').modal("hide");
-                    $location.path("/profile");
+                    location.reload();
                 }
             }, function (reason) {
                 $scope.adderror = reason.data;
@@ -630,7 +650,7 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
                 } else {
                     $('#editcase').modal("hide");
                     $('#allmycases').modal("hide");
-                    $location.path("/profile");
+                    location.reload();
                 }
             }, function (reason) {
                 console.log(reason.data);
@@ -661,7 +681,7 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
                 } else {
                     $('#deletecase').modal("hide");
                     $('#allmycases').modal("hide");
-                    $location.path("/profile");
+                    location.reload();
                 }
             }, function (reason) {
                 console.log(reason.data);
@@ -692,7 +712,7 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
                 } else {
                     $('#completecase').modal("hide");
                     $('#allmycases').modal("hide");
-                    $location.path("/profile");
+                    location.reload();
                 }
             }, function (reason) {
                 console.log(reason.data);
@@ -701,16 +721,45 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
     
     //update data
     $scope.updatedata = function () {
-        
+        //if name unchanged
+        if ($scope.newname === undefined || $scope.newname === null) {
+            $scope.snewname = $scope.uname;
+        } else {
+            $scope.snewname = $scope.newname;
+        }
+        //if email unchanged
+        if ($scope.newemail === undefined || $scope.newemail === null) {
+            $scope.snewemail = $scope.uemail;
+        } else {
+            $scope.snewemail = $scope.newemail;
+        }
+        //if mobile number unchanged
+        if ($scope.newmobile === undefined || $scope.newmobile === null) {
+            $scope.snewmobile = $scope.umobilnumber;
+        } else {
+            $scope.snewmobile = $scope.newmobile;
+        }
+        //if address unchanged
+        if ($scope.newcity === undefined || $scope.newcity === null) {
+            $scope.snewcity = $scope.uaddress;
+        } else {
+            $scope.snewcity = $scope.newcity;
+        }
+        //if gender unchanged
+        if ($scope.newgender === undefined || $scope.newgender === null) {
+            $scope.snewgender = $scope.ugender;
+        } else {
+            $scope.snewgender = $scope.newgender;
+        }
         var updata = JSON.stringify({
             "UserID": $scope.uid,
-            "Name": $scope.newname,
+            "Name": $scope.snewname,
             "Password": $scope.newpass,
-            "EMail": $scope.newemail,
+            "EMail": $scope.snewemail,
             "Img": $scope.newimage,
-            "MobileNumber": $scope.newmobile,
-            "Address": $scope.newcity,
-            "Gender": $scope.newgender,
+            "MobileNumber": $scope.snewmobile,
+            "Address": $scope.snewcity,
+            "Gender": $scope.snewgender,
             "InterestedCategory": $scope.newcat
         });
         console.log(updata);
@@ -727,8 +776,8 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
                 if (response.data.IsSuccess) {
                     $('#updatedata').modal("hide");
                     //if email changed
-                    if ($scope.uemail === $scope.newemail) {
-                        $location.path("/profile");
+                    if ($scope.uemail === $scope.snewemail) {
+                        location.reload();
                     } else {
                         $cookies.remove('accessToken');
                         $cookies.remove('userData');
@@ -747,9 +796,9 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
 
     //logout
     $scope.logout = function () {
-        $location.path("/");
         $cookies.remove('accessToken');
         $cookies.remove('userData');
+        $location.path("/");
     };
 }]);
 
