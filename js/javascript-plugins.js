@@ -437,7 +437,7 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", "$http", f
             "SearchType": $scope.searchtype,
             "User_ID": $scope.uid
         });
-        
+        console.log(searchdata);
         $http({
             method: "POST",
             url: "http://yakensolution.cloudapp.net/Charity/Api/User/Search",
@@ -464,6 +464,177 @@ myApp.controller("dashboardCtrl", ["$scope", "$location", "$cookies", "$http", f
             });
     };
     
+    // edit case
+    $scope.selecteditcase = function (edcase) {
+        console.log(edcase);
+        $scope.editcaseid = edcase;
+        console.log($scope.editcaseid);
+        $('#editcase').modal("show");
+    };
+    $scope.editcase = function () {
+        var dates = JSON.stringify($scope.newcasedate),
+            newmonth = dates.substr(6, 2),
+            newday = dates.substr(9, 2),
+            newyear = dates.substr(1, 4);
+        $scope.newdate =  newmonth + "/" + newday + "/" + newyear;
+        var caseedit = JSON.stringify({
+            "CauseID": $scope.editcaseid,
+            "Name": $scope.newcasename,
+            "Amount": $scope.newcaseamount,
+            "CategoryID": $scope.newcasecat,
+            "EndDate": $scope.newdate,
+            "CauseDescription": $scope.newcasedes,
+            "IMG": $scope.newcaseimg,
+            "status": "1"
+        });
+        $http({
+            method: "POST",
+            url: "http://yakensolution.cloudapp.net/Charity/Api/Case/EditCause",
+            data: caseedit,
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+                console.log(response.data);
+                if (!response.data.IsSuccess) {
+                    $('#caseerror').modal("show");
+                } else {
+                    $('#editcase').modal("hide");
+                    $('#allmycases').modal("hide");
+                    location.reload();
+                }
+            }, function (reason) {
+                console.log(reason.data);
+            });
+    };
+    // delete case
+    $scope.selectdeletecase = function (delcase) {
+        console.log(delcase);
+        $scope.deletecaseid = delcase;
+        console.log($scope.deletecaseid);
+        $('#deletecase').modal("show");
+    };
+    $scope.deletecase = function () {
+        var casedelete = JSON.stringify({
+            "CauseID": $scope.deletecaseid,
+            "ActionType": "1"
+        });
+        $http({
+            method: "POST",
+            url: "http://yakensolution.cloudapp.net/Charity/Api/Case/DeleteCause",
+            data: casedelete,
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+                console.log(response.data);
+                if (!response.data.IsSuccess) {
+                    $('#caseerror').modal("show");
+                } else {
+                    $('#deletecase').modal("hide");
+                    $('#allmycases').modal("hide");
+                    location.reload();
+                }
+            }, function (reason) {
+                console.log(reason.data);
+            });
+    };
+    // complete case
+    $scope.selectcompletecase = function (comcase) {
+        console.log(comcase);
+        $scope.completecaseid = comcase;
+        console.log($scope.completecaseid);
+        $('#completecase').modal("show");
+    };
+    $scope.completecase = function () {
+        var casedelete = JSON.stringify({
+            "CauseID": $scope.completecaseid,
+            "ActionType": "2"
+        });
+        $http({
+            method: "POST",
+            url: "http://yakensolution.cloudapp.net/Charity/Api/Case/DeleteCause",
+            data: casedelete,
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+                console.log(response.data);
+                if (!response.data.IsSuccess) {
+                    $('#caseerror').modal("show");
+                } else {
+                    $('#completecase').modal("hide");
+                    $('#allmycases').modal("hide");
+                    location.reload();
+                }
+            }, function (reason) {
+                console.log(reason.data);
+            });
+    };
+    
+    // join case
+    $scope.selectjoincase = function (joincase) {
+        console.log(joincase);
+        $scope.joincaseid = joincase;
+        console.log($scope.joincaseid);
+        $('#joincasemodal').modal("show");
+    };
+    $scope.joincase = function () {
+        var casejoin = JSON.stringify({
+            "User_ID": $scope.uid,
+            "CaseID": $scope.joincaseid,
+            "DonationValue": "1"
+        });
+        $http({
+            method: "POST",
+            url: "http://yakensolution.cloudapp.net/Charity/Api/User/Donation",
+            data: casejoin,
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+                console.log(response.data);
+                if (!response.data.IsSuccess) {
+                    $scope.errormessage = response.data.ErrorMessage;
+                    $('#errormessage').modal("show");
+                } else {
+                    $('#joincasemodal').modal("hide");
+                    $('#searchcases').modal("hide");
+                    location.reload();
+                }
+            }, function (reason) {
+                console.log(reason.data);
+            });
+    };
+    
+    // follow user
+    $scope.selectfollowuser = function (fuser) {
+        console.log(fuser);
+        $scope.fuserid = fuser;
+        console.log($scope.fuserid);
+        $('#fusermodal').modal("show");
+    };
+    $scope.followuser = function () {
+        var userfollow = JSON.stringify({
+            "User_ID": $scope.uid,
+            "FollowingID": $scope.fuserid
+        });
+        $http({
+            method: "POST",
+            url: "http://yakensolution.cloudapp.net/Charity/Api/User/Follow",
+            data: userfollow,
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+                console.log(response.data);
+                if (response.data.IsSuccess) {
+                    $('#fusermodal').modal("hide");
+                    $('#searchusers').modal("hide");
+                    location.reload();
+                } else {
+                    $scope.errormessage = response.data.ErrorMessage;
+                    $('#errormessage').modal("show");
+                }
+            }, function (reason) {
+                console.log(reason.data);
+            });
+    };
     
     //profile page
     $scope.profile = function () {$location.path("/profile"); };
@@ -571,6 +742,19 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
                 console.log(reason.data);
             });
     };
+    
+    $http({
+        method: "POST",
+        url: "http://yakensolution.cloudapp.net/Charity/Api/Following/ListofFollowers",
+        data: uiddata,
+        headers: {'Content-Type': 'application/json'}
+    })
+        .then(function (response) {
+            console.log(response.data);
+            $scope.followedusers = response.data.ListOFFollowers;
+        }, function (reason) {
+            console.log(reason.data);
+        });
     
     //add case
     $scope.addcase = function () {

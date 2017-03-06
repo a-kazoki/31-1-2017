@@ -291,17 +291,6 @@
           <a href=""><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
@@ -381,8 +370,8 @@
                 <li class="list-group-item">
                   <b>Followers</b> <a class="pull-right">1,322</a>
                 </li>
-                <li class="list-group-item">
-                  <b>Following</b> <a class="pull-right">543</a>
+                <li class="list-group-item" data-toggle="modal" data-target="#followedusers" style="cursor: pointer">
+                  <b>Following</b> <a class="pull-right">{{followedusers.length}}</a>
                 </li>
               </ul>
 
@@ -919,7 +908,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Sorry</h3>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Complete</h3>
             </div>
             <div class="modal-body">
                 <p style="color: #080" class="lead">Is Thiss Case Complete?</p>
@@ -935,7 +924,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Sorry</h3>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Delete</h3>
             </div>
             <div class="modal-body">
                 <p style="color: #f00" class="lead">Are You Sure You Want To Delete This Case</p>
@@ -957,6 +946,33 @@
                 <p style="color: #fff" class="lead">Something Went Wrong</p>
             </div>
 
+        </div>
+    </div>
+</div>
+<!-- followed users modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="followedusers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Users You Are Following</h3>
+            </div>
+            <div class="modal-body">
+                <div ng-repeat="user in followedusers" style="background: rgba(0,0,0,0.7)">
+                    <div class="info-box bg-aqua">
+                      <span class="info-box-icon"><img src={{user.ImgURL}} class="img-responsive" style="height: 100%"></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">Name: {{user.Name}}</span>
+                      </div>
+                      <!-- /.info-box-content -->
+                    <div ng-if= "!searchresult.IsOwner || !searchresult.IsJoined">
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="getotheruserdetails(user.User_ID)">Details</button>
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="unfollow(user.User_ID)">Un-Follow</button>
+                    </div>
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            </div>
         </div>
     </div>
 </div>

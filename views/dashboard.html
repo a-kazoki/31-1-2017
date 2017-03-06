@@ -691,26 +691,31 @@
                 <h3 style="color: #fff" class="modal-title" id="myModalLabel">Your Search Results</h3>
             </div>
             <div class="modal-body">
-                <div ng-repeat="searchresult in searchreply" style="background: rgba(0,0,0,0.7)">
+                <div ng-repeat="searchresult in searchcases" style="background: rgba(0,0,0,0.7)">
                     <div class="info-box bg-aqua">
-                      <span class="info-box-icon"><img src={{case.IMG}} class="img-responsive" style="height: 100%"></span>
+                      <span class="info-box-icon"><img src={{searchresult.IMG}} class="img-responsive" style="height: 100%"></span>
                       <div class="info-box-content">
-                        <span class="info-box-text">Name: {{case.CaseName}}</span>
-                        <span class="info-box-number">Target Amount: {{case.Amount}}</span>
+                        <span class="info-box-text">Name: {{searchresult.CaseName}}</span>
+                          <span class="info-box-number">Target Amount: {{searchresult.Amount}}</span>
                           <span class="progress-description">
-                            Description: {{case.CaseDescription}}
+                            Description: {{searchresult.CaseDescription}}
                               <br>
-                              End Date: {{case.EndDate}}
+                              End Date: {{searchresult.EndDate}}
                               <br>
-                              Number of Joined: {{case.Numberofjoins}}
+                              Number of Joined: {{searchresult.Numberofjoins}}
                           </span>
                       </div>
                       <!-- /.info-box-content -->
                     </div>
                     <!-- /.info-box -->
-                    <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="selecteditcase(case.CauseID)">Edit</button>
-                    <button type="button" style="margin-bottom: 10px" class="btn btn-success" ng-click="selectcompletecase(case.CauseID)">Completed</button>
-                    <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="selectdeletecase(case.CauseID)">Delete</button>
+                    <div ng-if= "searchresult.IsOwner">
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="selecteditcase(searchresult.CauseID)">Edit</button>
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-success" ng-click="selectcompletecase(searchresult.CauseID)">Completed</button>
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="selectdeletecase(searchresult.CauseID)">Delete</button>
+                    </div>
+                    <div ng-if= "!searchresult.IsOwner || !searchresult.IsJoined">
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="selectjoincase(searchresult.CauseID)">join</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -725,27 +730,125 @@
                 <h3 style="color: #fff" class="modal-title" id="myModalLabel">Your Search Results</h3>
             </div>
             <div class="modal-body">
-                <div ng-repeat="searchresult in searchreply" style="background: rgba(0,0,0,0.7)">
+                <div ng-repeat="searchresult in searchusers" style="background: rgba(0,0,0,0.7)">
                     <div class="info-box bg-aqua">
-                      <span class="info-box-icon"><img src={{case.IMG}} class="img-responsive" style="height: 100%"></span>
+                      <span class="info-box-icon"><img src={{searchresult.ImgURL}} class="img-responsive" style="height: 100%"></span>
                       <div class="info-box-content">
-                        <span class="info-box-text">Name: {{case.CaseName}}</span>
-                        <span class="info-box-number">Target Amount: {{case.Amount}}</span>
-                          <span class="progress-description">
-                            Description: {{case.CaseDescription}}
-                              <br>
-                              End Date: {{case.EndDate}}
-                              <br>
-                              Number of Joined: {{case.Numberofjoins}}
-                          </span>
+                        <span class="info-box-text">Name: {{searchresult.Name}}</span>
                       </div>
                       <!-- /.info-box-content -->
+                    <div ng-if= "!searchresult.IsOwner || !searchresult.IsJoined">
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="selectfollowuser(searchresult.User_ID)">Follow</button>
+                    </div>
                     </div>
                     <!-- /.info-box -->
-                    <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="selecteditcase(case.CauseID)">Edit</button>
-                    <button type="button" style="margin-bottom: 10px" class="btn btn-success" ng-click="selectcompletecase(case.CauseID)">Completed</button>
-                    <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="selectdeletecase(case.CauseID)">Delete</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- edit case Modal -->
+<div style="background-color: rgba(255, 255, 255, 0.8)" class="modal fade" id="editcase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 style="color: #fff" class="modal-title" id="myModalLabel">Edit Case</h4>
+            </div>
+            <div>
+                <form role="form" name="editcaseform" ng-submit="editcase()"><!--Start Contact Form-->
+                    <div class="col-md-12">
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Case Name" ng-model="newcasename" required></input>
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Case Amount" ng-model="newcaseamount" required></input>
+                        </div>
+                        <div class="form-group">
+                          <input type="date" class="form-control input-lg" ng-model="newcasedate" required></input>
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Case Description" ng-model="newcasedes" required></input>
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Image" ng-model="newcaseimg" required></input>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Case Category</label><br>
+                            <select class="form-control input-lg" ng-model="newcasecat" required>
+                                <option value="" disabled ng-selecte>Select Category</option>
+                                <option ng-repeat="case in allcases" ng-value=case.CategoryID>{{case.CategoryName}}</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- complete case modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="completecase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Complete</h3>
+            </div>
+            <div class="modal-body">
+                <p style="color: #080" class="lead">Is Thiss Case Complete?</p>
+                <button type="button" style="margin-bottom: 10px" class="btn btn-success" ng-click="completecase()">Complete</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- delete case modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="deletecase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Delete</h3>
+            </div>
+            <div class="modal-body">
+                <p style="color: #f00" class="lead">Are You Sure You Want To Delete This Case</p>
+                <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="deletecase()">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- join case modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="joincasemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Join Case</h3>
+            </div>
+            <div class="modal-body">
+                <p style="color: #00f" class="lead">Are You Sure You Want To Join This Case</p>
+                <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="joincase()">Join</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- follow user modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="fusermodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Follow User</h3>
+            </div>
+            <div class="modal-body">
+                <p style="color: #00f" class="lead">Are You Sure You Want To Follow This User</p>
+                <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="followuser()">Follow</button>
             </div>
         </div>
     </div>
