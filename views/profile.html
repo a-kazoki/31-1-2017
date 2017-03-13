@@ -308,29 +308,9 @@
           </a>        
         </li>
         <li class="treeview">
-          <a href="">
-            <i class="fa fa-pie-chart"></i>
-            <span>Causes</span>
-          </a> 
-        </li>
-        <li class="treeview">
-          <a href="mailbox.html">
+          <a href="" ng-click="mailbox()">
             <i class="fa fa-envelope"></i> <span>Mailbox</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
           </a>
-          <ul class="treeview-menu">
-            <li >
-              <a href="mailbox.html">Inbox
-                <span class="pull-right-container">
-                  <span class="label label-primary pull-right">13</span>
-                </span>
-              </a>
-            </li>
-            <li><a href="compose.html">Compose</a></li>
-            <li><a href="read-mail.html">Read</a></li>
-          </ul>
         </li>
       </ul>
     </section>
@@ -367,11 +347,11 @@
                 <p class="text-muted text-center" ng-if= utrusted><i class="fa fa-certificate" style="color: gold" aria-hidden="true"></i>&nbsp;Trusted</p>
 
               <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                  <b>Followers</b> <a class="pull-right">1,322</a>
+                <li class="list-group-item" data-toggle="modal" data-target="#mefollowingusers" style="cursor: pointer">
+                  <b>Following</b> <a class="pull-right">{{mefollowing.length}}</a>
                 </li>
-                <li class="list-group-item" data-toggle="modal" data-target="#followedusers" style="cursor: pointer">
-                  <b>Following</b> <a class="pull-right">{{followedusers.length}}</a>
+                <li class="list-group-item" data-toggle="modal" data-target="#followingmeusers" style="cursor: pointer">
+                  <b>Followers</b> <a class="pull-right">{{followingme.length}}</a>
                 </li>
               </ul>
 
@@ -758,7 +738,7 @@
                             <div ng-show="uemail !== newemail">If You Change Your Email You Will RE-Verify The New One</div>
                         </div>
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="image url" ng-model="newimage"></input>
+                          <input type="file" class="form-control input-lg" placeholder="image url" ng-model="newimage" accept="image/*"></input>
                         </div>
                         <div class="form-group">
                           <input type="text" class="form-control input-lg" placeholder="Mobile Number" ng-model="newmobile"></input>
@@ -770,14 +750,14 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <select class="form-control input-lg" ng-model="newcountry" ng-change="getcity()">
-                                <option value="" ng-selecte>Country</option>
+                            <select class="form-control input-lg" ng-model="newcountry" ng-change="getcity()" required>
+                                <option value="" disabled ng-selecte>Country</option>
                                 <option ng-repeat="country in allcountries" ng-value=country.CountryID>{{country.Countryname}}</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <select class="form-control input-lg" ng-model="newcity">
-                                <option value="" ng-selecte>City</option>
+                            <select class="form-control input-lg" ng-model="newcity" required>
+                                <option value="" disabled ng-selecte>City</option>
                                 <option ng-repeat="city in allcities" ng-value=city.CityID>{{city.CityName}}</option>
                             </select>
                         </div>
@@ -949,16 +929,16 @@
         </div>
     </div>
 </div>
-<!-- followed users modal -->
-<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="followedusers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!-- users follow me modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="followingmeusers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Users You Are Following</h3>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Users Following You</h3>
             </div>
             <div class="modal-body">
-                <div ng-repeat="user in followedusers" style="background: rgba(0,0,0,0.7)">
+                <div ng-repeat="user in followingme" style="background: rgba(0,0,0,0.7)">
                     <div class="info-box bg-aqua">
                       <span class="info-box-icon"><img src={{user.ImgURL}} class="img-responsive" style="height: 100%"></span>
                       <div class="info-box-content">
@@ -966,8 +946,7 @@
                       </div>
                       <!-- /.info-box-content -->
                     <div ng-if= "!searchresult.IsOwner || !searchresult.IsJoined">
-                        <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="getotheruserdetails(user.User_ID)">Details</button>
-                        <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="unfollow(user.User_ID)">Un-Follow</button>
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="getotheruserdetails(user.FollowID)">Details</button>
                     </div>
                     </div>
                     <!-- /.info-box -->
@@ -976,7 +955,48 @@
         </div>
     </div>
 </div>
-
+<!-- unfollow modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="unfollowconfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Unfollow</h3>
+            </div>
+            <div class="modal-body">
+                <p style="color: #f00" class="lead">Are You Sure You Want To Unfollow This User</p>
+                <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="unfollow()">Unfollow</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- users i follow modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="mefollowingusers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Users You Follow</h3>
+            </div>
+            <div class="modal-body">
+                <div ng-repeat="user in mefollowing" style="background: rgba(0,0,0,0.7)">
+                    <div class="info-box bg-aqua">
+                      <span class="info-box-icon"><img src={{user.ImgURL}} class="img-responsive" style="height: 100%"></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">Name: {{user.Name}}</span>
+                      </div>
+                      <!-- /.info-box-content -->
+                    <div ng-if= "!searchresult.IsOwner || !searchresult.IsJoined">
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="getotheruserdetails(user.FollowID)">Details</button>
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="selectunfollow(user.FollowID)">Un-Follow</button>
+                    </div>
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- jQuery 2.2.3 -->
 <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
