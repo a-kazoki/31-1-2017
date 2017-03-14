@@ -966,6 +966,37 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
             });
     };
     
+    // change image
+    $scope.updateimage = function () {
+        if ($scope.newimage === undefined) {
+            console.log("no image choosen");
+            console.log($scope.newimage);
+            console.log("http://yakensolution.cloudapp.net/Charity/Api/User/AddPicture?User_ID=" + $scope.uid);
+        } else {
+            var updataimg = JSON.stringify({
+                "Img": $scope.newimage
+            });
+            console.log($scope.newimage);
+            console.log("http://yakensolution.cloudapp.net/Charity/Api/User/AddPicture?User_ID=" + $scope.uid);
+            $http({
+                method: "POST",
+                url: "http://yakensolution.cloudapp.net/Charity/Api/User/AddPicture?User_ID=" + $scope.uid,
+                data: updataimg
+            })
+                .then(function (response) {
+                    console.log(response.data);
+                    if (!response.data.IsSuccess) {
+                        console.log("error");
+                    } else {
+                        location.reload();
+                    }
+                }, function (reason) {
+                    console.log(reason.data);
+                });
+        }
+        
+    };
+    
     //update data
     $scope.updatedata = function () {
         //if name unchanged
@@ -1004,7 +1035,6 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
             "Name": $scope.snewname,
             "Password": $scope.newpass,
             "EMail": $scope.snewemail,
-            "Img": "placeholder",
             "MobileNumber": $scope.snewmobile,
             "Address": $scope.snewcity,
             "Gender": $scope.snewgender,
@@ -1022,40 +1052,15 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
                 $scope.updatereply = response.data;
                 console.log(response.data);
                 if (response.data.IsSuccess) {
-                    var updataimg = JSON.stringify({
-                        "Img": $scope.newimage
-                    });
-                    $http({
-                        method: "POST",
-                        url: "http://yakensolution.cloudapp.net/Charity/Api/User/AddPicture?User_ID=" + $scope.uid,
-                        data: updataimg,
-                        headers: {'Content-Type': 'application/json'}
-                    })
-                        .then(function (response) {
-                            $scope.upimgreply = response.data;
-                            console.log(response.data);
-                            console.log(response.data.IsSuccess);
-                            if ($scope.uemail === $scope.snewemail) {
-                                location.reload();
-                            } else {
-                                $cookies.remove('accessToken');
-                                $cookies.remove('userData');
-                                $location.path("/");
-                            }
-                        }, function (reason) {
-                            $scope.upimgerror = reason.data;
-                            console.log(reason.data);
-                            if ($scope.uemail === $scope.snewemail) {
-                                location.reload();
-                            } else {
-                                $cookies.remove('accessToken');
-                                $cookies.remove('userData');
-                                $location.path("/");
-                            }
-                        });
                     $('#updatedata').modal("hide");
                     //if email changed
-                    
+                    if ($scope.uemail === $scope.snewemail) {
+                        location.reload();
+                    } else {
+                        $cookies.remove('accessToken');
+                        $cookies.remove('userData');
+                        $location.path("/");
+                    }
                 } else {
                     $('#updatedata').modal("hide");
                     $('#updatedataerror').modal("show");
@@ -1064,8 +1069,6 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
                 $scope.updateerror = reason.data;
                 console.log(reason.data);
             });
-        
-        
     };
 
     //logout
@@ -1079,8 +1082,70 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
 //mailboxCtrl js
 myApp.controller("mailboxCtrl", ["$scope", "$location", "$cookies", "$http", function ($scope, $location, $cookies, $http) {
     "use strict";
-    
-    
+    //dashboard page
+    $scope.newsfeed = function () {$location.path("/dashboard"); };
+    //profile page
+    $scope.profile = function () {$location.path("/profile"); };
+    var allcookies = $cookies.getAll();
+    console.log(allcookies);
+    //user id
+    var udata = JSON.parse($cookies.get('userData'));
+    $scope.uid = udata;
+    console.log($scope.uid);
+    var uiddata = JSON.stringify({
+            "User_ID": $scope.uid
+        });
+    // get user details
+    $http({
+        method: "POST",
+        url: "http://yakensolution.cloudapp.net/Charity/Api/User/UserDetails",
+        data: uiddata,
+        headers: {'Content-Type': 'application/json'}
+    })
+        .then(function (response) {
+            console.log(response.data);
+            //settings user variables
+            var mainCookie = response.data;
+            console.log(mainCookie);
+            $scope.uname = mainCookie.Name;
+            $scope.uemail = mainCookie.EMail;
+            if (mainCookie.ImgURL === null) {
+                $scope.upic = "images/avatar.png";
+                console.log($scope.upic);
+            } else {
+                $scope.upic = mainCookie.ImgURL;
+            }
+            $scope.uaddress = mainCookie.Address;
+            $scope.umobilnumber = mainCookie.MobileNumber;
+            $scope.ugender = mainCookie.Gender;
+            //my cases
+            $scope.myCases = response.data.MyCases;
+            //followed cases
+            $scope.followCases = response.data.JoinedCases;
+        }, function (reason) {
+            $scope.detailerror = reason.data;
+            console.log(reason.data);
+        });
+    // get user inbox
+    $http({
+        method: "POST",
+        url: "http://yakensolution.cloudapp.net/Charity/Api/Messeging/Inbox",
+        data: uiddata,
+        headers: {'Content-Type': 'application/json'}
+    })
+        .then(function (response) {
+            console.log(response.data);
+            //settings user variables
+            var inbox = response.data;
+            if (response.data.IsSuccess) {
+                $scope.messages = inbox.ListOfMasseges;
+            } else {
+                console.log("error");
+            }
+        }, function (reason) {
+            $scope.inboxerror = reason.data;
+            console.log(reason.data);
+        });
     
     //logout
     $scope.logout = function () {
