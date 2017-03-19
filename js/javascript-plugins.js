@@ -971,13 +971,13 @@ myApp.controller("profileCtrl", ["$scope", "$location", "$cookies", "$http", fun
         if ($scope.newimage === undefined) {
             console.log("no image choosen");
             console.log($scope.newimage);
-            console.log("http://yakensolution.cloudapp.net/Charity/Api/User/AddPicture?User_ID=" + $scope.uid);
+            //console.log("http://yakensolution.cloudapp.net/Charity/Api/User/AddPicture?User_ID=" + $scope.uid);
         } else {
             var updataimg = JSON.stringify({
                 "Img": $scope.newimage
             });
             console.log($scope.newimage);
-            console.log("http://yakensolution.cloudapp.net/Charity/Api/User/AddPicture?User_ID=" + $scope.uid);
+            //console.log("http://yakensolution.cloudapp.net/Charity/Api/User/AddPicture?User_ID=" + $scope.uid);
             $http({
                 method: "POST",
                 url: "http://yakensolution.cloudapp.net/Charity/Api/User/AddPicture?User_ID=" + $scope.uid,

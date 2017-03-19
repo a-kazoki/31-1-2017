@@ -533,7 +533,7 @@
                         <div class="text-center">
                             <div class="userimage">
                                 <img ng-src={{upic}} class="avatar img-circle img-responsive" alt="avatar">
-                                <input style="display: inline-block" type="file" name="img" ng-model="newimage" accept="image/*"></input>
+                                <input style="display: inline-block" type="file" name="img" ng-model="newimage" accept="image/*">
                                 <button style="display: inline-block" ng-click="updateimage()" class="btn btn-primary">Submit New Image</button>
                             </div>
                             <br>
@@ -732,17 +732,17 @@
                 <form role="form" name="updatedataform" ng-submit="updatedata()"><!--Start Contact Form-->
                     <div class="col-md-12">
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Name" ng-model="newname"></input>
+                          <input type="text" class="form-control input-lg" placeholder="Name" ng-model="newname">
                         </div>
                         <div class="form-group">
-                          <input type="password" class="form-control input-lg" placeholder="Password" ng-model="newpass" required></input>
+                          <input type="password" class="form-control input-lg" placeholder="Password" ng-model="newpass" required>
                         </div>
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Email" ng-model="newemail"></input>
+                          <input type="text" class="form-control input-lg" placeholder="Email" ng-model="newemail">
                             <div ng-show="uemail !== newemail">If You Change Your Email You Will RE-Verify The New One</div>
                         </div>
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Mobile Number" ng-model="newmobile"></input>
+                          <input type="text" class="form-control input-lg" placeholder="Mobile Number" ng-model="newmobile">
                         </div>
                         <div class="form-group">
                             <select class="form-control input-lg" ng-model="newcat" required>
@@ -807,19 +807,19 @@
                 <form role="form" name="addcaseform" ng-submit="addcase()"><!--Start Contact Form-->
                     <div class="col-md-12">
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Case Name" ng-model="casename" required></input>
+                          <input type="text" class="form-control input-lg" placeholder="Case Name" ng-model="casename" required>
                         </div>
                         <div class="form-group">
-                          <input type="number" class="form-control input-lg" placeholder="Case Amount" ng-model="caseamount" required></input>
+                          <input type="number" class="form-control input-lg" placeholder="Case Amount" ng-model="caseamount" required>
                         </div>
                         <div class="form-group">
-                          <input type="date" class="form-control input-lg" ng-model="casedate" required></input>
+                          <input type="date" class="form-control input-lg" ng-model="casedate" required>
                         </div>
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Case Description" ng-model="casedes" required></input>
+                          <input type="text" class="form-control input-lg" placeholder="Case Description" ng-model="casedes" required>
                         </div>
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Image" ng-model="caseimg" required></input>
+                          <input type="text" class="form-control input-lg" placeholder="Image" ng-model="caseimg" required>
                         </div>
 
                         <div class="form-group">
@@ -851,19 +851,19 @@
                 <form role="form" name="editcaseform" ng-submit="editcase()"><!--Start Contact Form-->
                     <div class="col-md-12">
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Case Name" ng-model="newcasename" required></input>
+                          <input type="text" class="form-control input-lg" placeholder="Case Name" ng-model="newcasename" required>
                         </div>
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Case Amount" ng-model="newcaseamount" required></input>
+                          <input type="text" class="form-control input-lg" placeholder="Case Amount" ng-model="newcaseamount" required>
                         </div>
                         <div class="form-group">
-                          <input type="date" class="form-control input-lg" ng-model="newcasedate" required></input>
+                          <input type="date" class="form-control input-lg" ng-model="newcasedate" required>
                         </div>
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Case Description" ng-model="newcasedes" required></input>
+                          <input type="text" class="form-control input-lg" placeholder="Case Description" ng-model="newcasedes" required>
                         </div>
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" placeholder="Image" ng-model="newcaseimg" required></input>
+                          <input type="text" class="form-control input-lg" placeholder="Image" ng-model="newcaseimg" required>
                         </div>
 
                         <div class="form-group">
